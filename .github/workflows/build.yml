@@ -12,7 +12,7 @@ jobs:
       - name: Write app data
         run: |
           cat > app.b64 <<'EOF_B'
-          H4sIAJJs22oC/808a3PUVpbf+1dcBOtqxd1yd4OJ022ZAUJmsgnsDs58IiyoW7dtBbXUSGpjb9Nb
+          H4sIAK5t22oC/808a3PUVpbf+1dcBOtqxd1yd4OJ022ZAUJmsgnsDs58IiyoW7dtBbXUSGpjb9Nb
           JiEpT0gmj8HBSTDrTB5AltQ6xCRQ48xWZf5JPrrl/7DnnHullvphnExt1aZmbOnq3HPP+yWZ6QOm
           WwuWmpzNBw17Zhp/Mttw5nTlkqvAPTfMmekGDwxWmzc8nwe60grq+SlFrjpGg+vKgsWvNF0vUFjN
           dQLuANQVywzmdZMvWDWep5uc5ViBZdh5v2bYXC/mol35uhXoNXeBe8pMZtoPlmw+c27eMk3unG+b
@@ -137,12 +137,61 @@ jobs:
           lLVnVHCKchMLj16Jmaw9E+Vmon6W5Kr/UPEpn/XJThI4jgPt9OtletHzj5Shyh5lqFAFlGKupyal
           EU0WfnEdWpGTlsQ/nDRBf7A0PUH//FXmfwGXiXKhD0sAAA==
           EOF_B
+          cat > key.b64 <<'EOF_K'
+          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
+          EOF_K
       - name: Create project
         run: |
           set -e
           mkdir -p app app/src/main app/src/main/java/com/nbbang/qr app/src/main/res/drawable app/src/main/res/values app/src/main/res/xml app/src/main/assets
           cat > app/build.gradle <<'EOF_X'
           plugins { id 'com.android.application' }
+          def run = (System.getenv('RUN_NUMBER') ?: '1').toInteger()
           android {
               namespace 'com.nbbang.qr'
               compileSdk 34
@@ -150,8 +199,19 @@ jobs:
                   applicationId 'com.nbbang.qr'
                   minSdk 24
                   targetSdk 34
-                  versionCode 2
-                  versionName '1.1'
+                  versionCode run
+                  versionName "1.${run}"
+              }
+              signingConfigs {
+                  fixed {
+                      storeFile file('nbbang.jks')
+                      storePassword 'nbbangqr'
+                      keyAlias 'nbbang'
+                      keyPassword 'nbbangqr'
+                  }
+              }
+              buildTypes {
+                  debug { signingConfig signingConfigs.fixed }
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
@@ -200,6 +260,8 @@ jobs:
           import android.content.ClipData;
           import android.content.ClipboardManager;
           import android.content.Intent;
+          import android.content.pm.PackageInfo;
+          import android.os.Build;
           import android.graphics.Rect;
           import android.net.Uri;
           import android.os.Bundle;
@@ -217,7 +279,13 @@ jobs:
           import com.google.mlkit.vision.text.TextRecognition;
           import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions;
 
+          import org.json.JSONArray;
           import org.json.JSONObject;
+
+          import java.io.BufferedReader;
+          import java.io.InputStreamReader;
+          import java.net.HttpURLConnection;
+          import java.net.URL;
 
           import java.io.File;
           import java.util.ArrayList;
@@ -247,6 +315,64 @@ jobs:
                   });
                   setContentView(web);
                   web.loadUrl("file:///android_asset/index.html");
+                  checkUpdate();
+              }
+
+              // ── 새 버전 확인 (GitHub 최신 릴리스와 비교) ──
+              private static final String RELEASE_API = "https://api.github.com/repos/dlsdml99-create/nbbang-qr/releases/latest";
+
+              private void checkUpdate() {
+                  new Thread(() -> {
+                      try {
+                          HttpURLConnection c = (HttpURLConnection) new URL(RELEASE_API).openConnection();
+                          c.setRequestProperty("Accept", "application/vnd.github+json");
+                          c.setConnectTimeout(8000);
+                          c.setReadTimeout(8000);
+                          if (c.getResponseCode() != 200) return;
+                          StringBuilder sb = new StringBuilder();
+                          try (BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream(), "UTF-8"))) {
+                              String line;
+                              while ((line = r.readLine()) != null) sb.append(line);
+                          }
+                          JSONObject o = new JSONObject(sb.toString());
+                          String digits = o.optString("tag_name", "").replaceAll("[^0-9]", "");
+                          if (digits.isEmpty()) return;
+                          long latest = Long.parseLong(digits);
+                          String url = null;
+                          JSONArray assets = o.optJSONArray("assets");
+                          if (assets != null) {
+                              for (int i = 0; i < assets.length(); i++) {
+                                  JSONObject a = assets.getJSONObject(i);
+                                  if (a.optString("name").endsWith(".apk")) { url = a.optString("browser_download_url"); break; }
+                              }
+                          }
+                          if (url == null || latest <= currentVersion()) return;
+                          final String u = url;
+                          runOnUiThread(() -> showUpdate(latest, u));
+                      } catch (Exception ignored) {}
+                  }).start();
+              }
+
+              @SuppressWarnings("deprecation")
+              private long currentVersion() {
+                  try {
+                      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+                      return Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
+                  } catch (Exception e) {
+                      return Long.MAX_VALUE;
+                  }
+              }
+
+              private void showUpdate(long latest, String url) {
+                  if (isFinishing()) return;
+                  new AlertDialog.Builder(this)
+                      .setTitle("새 버전이 있어요")
+                      .setMessage("v1." + latest + " 업데이트가 나왔어요.\n'업데이트'를 누르면 파일이 받아져요. 다 받으면 알림이나 다운로드에서 파일을 눌러 설치하세요.")
+                      .setPositiveButton("업데이트", (d, w) -> {
+                          try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) {}
+                      })
+                      .setNegativeButton("나중에", null)
+                      .show();
               }
 
               @Override
@@ -504,6 +630,7 @@ jobs:
           rootProject.name = "NbbangQR"
           include ':app'
           EOF_X
+          base64 -d key.b64 > app/nbbang.jks
           base64 -d app.b64 | gunzip > app/src/main/assets/index.html
           curl -fsSL https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js -o app/src/main/assets/qrcode.js
       - uses: actions/setup-java@v4
@@ -514,10 +641,12 @@ jobs:
         with:
           gradle-version: '8.7'
       - run: gradle assembleDebug --no-daemon
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
       - name: Publish APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk nbbang-qr.apk
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest nbbang-qr.apk --title "N빵 QR 앱" --notes "폰에서 nbbang-qr.apk를 눌러 받아 설치하세요."
+          gh release create "v${{ github.run_number }}" nbbang-qr.apk --latest --title "N빵 QR v1.${{ github.run_number }}" --notes "폰에서 nbbang-qr.apk를 눌러 받아 설치하세요."
