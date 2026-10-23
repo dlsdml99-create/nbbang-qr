@@ -12,7 +12,7 @@ jobs:
       - name: Write app data
         run: |
           cat > app.b64 <<'EOF_B'
-          H4sIAK5t22oC/808a3PUVpbf+1dcBOtqxd1yd4OJ022ZAUJmsgnsDs58IiyoW7dtBbXUSGpjb9Nb
+          H4sIAJ5u22oC/808a3PUVpbf+1dcBOtqxd1yd4OJ022ZAUJmsgnsDs58IiyoW7dtBbXUSGpjb9Nb
           JiEpT0gmj8HBSTDrTB5AltQ6xCRQ48xWZf5JPrrl/7DnnHullvphnExt1aZmbOnq3HPP+yWZ6QOm
           WwuWmpzNBw17Zhp/Mttw5nTlkqvAPTfMmekGDwxWmzc8nwe60grq+SlFrjpGg+vKgsWvNF0vUFjN
           dQLuANQVywzmdZMvWDWep5uc5ViBZdh5v2bYXC/mol35uhXoNXeBe8pMZtoPlmw+c27eMk3unG+b
@@ -219,6 +219,7 @@ jobs:
               }
           }
           dependencies {
+              implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
               implementation 'androidx.core:core:1.13.1'
               implementation 'com.google.mlkit:text-recognition-korean:16.0.1'
           }
