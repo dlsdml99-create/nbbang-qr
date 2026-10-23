@@ -12,144 +12,135 @@ jobs:
       - name: Write app data
         run: |
           cat > app.b64 <<'EOF_B'
-          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
-          C1zSH0DMz9A/p5P5X+GgI/9fRwAA
+          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
           EOF_B
       - name: Create project
         run: |
           set -e
-          mkdir -p app/src/main/java/com/nbbang/qr app/src/main/assets app/src/main/res/values app/src/main/res/drawable
-          cat > settings.gradle <<'EOF_X'
-          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
-          dependencyResolutionManagement { repositories { google(); mavenCentral() } }
-          rootProject.name = "NbbangQR"
-          include ':app'
-          EOF_X
-          cat > build.gradle <<'EOF_X'
-          plugins { id 'com.android.application' version '8.5.2' apply false }
-          EOF_X
-          cat > gradle.properties <<'EOF_X'
-          org.gradle.jvmargs=-Xmx2048m
-          android.useAndroidX=true
-          EOF_X
+          mkdir -p app app/src/main app/src/main/java/com/nbbang/qr app/src/main/res/drawable app/src/main/res/values app/src/main/res/xml app/src/main/assets
           cat > app/build.gradle <<'EOF_X'
           plugins { id 'com.android.application' }
           android {
@@ -159,13 +150,17 @@ jobs:
                   applicationId 'com.nbbang.qr'
                   minSdk 24
                   targetSdk 34
-                  versionCode 1
-                  versionName '1.0'
+                  versionCode 2
+                  versionName '1.1'
               }
               compileOptions {
                   sourceCompatibility JavaVersion.VERSION_17
                   targetCompatibility JavaVersion.VERSION_17
               }
+          }
+          dependencies {
+              implementation 'androidx.core:core:1.13.1'
+              implementation 'com.google.mlkit:text-recognition-korean:16.0.1'
           }
           EOF_X
           cat > app/src/main/AndroidManifest.xml <<'EOF_X'
@@ -185,38 +180,53 @@ jobs:
                           <category android:name="android.intent.category.LAUNCHER" />
                       </intent-filter>
                   </activity>
+                  <provider
+                      android:name="androidx.core.content.FileProvider"
+                      android:authorities="${applicationId}.files"
+                      android:exported="false"
+                      android:grantUriPermissions="true">
+                      <meta-data
+                          android:name="android.support.FILE_PROVIDER_PATHS"
+                          android:resource="@xml/file_paths" />
+                  </provider>
               </application>
           </manifest>
-          EOF_X
-          cat > app/src/main/res/values/strings.xml <<'EOF_X'
-          <resources><string name="app_name">N빵 QR</string></resources>
-          EOF_X
-          cat > app/src/main/res/drawable/ic_launcher.xml <<'EOF_X'
-          <vector xmlns:android="http://schemas.android.com/apk/res/android"
-              android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
-              <path android:fillColor="#2F5BFF" android:pathData="M24,0h60a24,24 0,0 1,24 24v60a24,24 0,0 1,-24 24h-60a24,24 0,0 1,-24 -24v-60a24,24 0,0 1,24 -24z"/>
-              <path android:fillColor="#FFFFFF" android:pathData="M28,28h20v20h-20z M60,28h20v20h-20z M28,60h20v20h-20z"/>
-              <path android:fillColor="#2F5BFF" android:pathData="M34,34h8v8h-8z M66,34h8v8h-8z M34,66h8v8h-8z"/>
-              <path android:fillColor="#FFE36E" android:pathData="M60,60h8v8h-8z M72,60h8v8h-8z M60,72h8v8h-8z M72,72h8v8h-8z"/>
-          </vector>
           EOF_X
           cat > app/src/main/java/com/nbbang/qr/MainActivity.java <<'EOF_X'
           package com.nbbang.qr;
 
           import android.app.Activity;
+          import android.app.AlertDialog;
           import android.content.ClipData;
           import android.content.ClipboardManager;
           import android.content.Intent;
+          import android.graphics.Rect;
           import android.net.Uri;
           import android.os.Bundle;
+          import android.provider.MediaStore;
           import android.webkit.JavascriptInterface;
           import android.webkit.WebResourceRequest;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
 
+          import androidx.core.content.FileProvider;
+
+          import com.google.mlkit.vision.common.InputImage;
+          import com.google.mlkit.vision.text.Text;
+          import com.google.mlkit.vision.text.TextRecognition;
+          import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions;
+
+          import org.json.JSONObject;
+
+          import java.io.File;
+          import java.util.ArrayList;
+          import java.util.List;
+
           public class MainActivity extends Activity {
+              private static final int REQ_CAMERA = 1, REQ_GALLERY = 2;
               private WebView web;
+              private Uri photoUri;
 
               @Override
               protected void onCreate(Bundle savedInstanceState) {
@@ -250,8 +260,249 @@ jobs:
                       ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                       cm.setPrimaryClip(ClipData.newPlainText("N빵", text));
                   }
+
+                  @JavascriptInterface
+                  public void scanReceipt() {
+                      runOnUiThread(MainActivity.this::chooseSource);
+                  }
+              }
+
+              private void chooseSource() {
+                  new AlertDialog.Builder(this)
+                      .setTitle("영수증 가져오기")
+                      .setItems(new String[]{"카메라로 찍기", "앨범에서 고르기"}, (d, which) -> {
+                          if (which == 0) openCamera(); else openGallery();
+                      })
+                      .setOnCancelListener(d -> status(""))
+                      .show();
+              }
+
+              private void openCamera() {
+                  try {
+                      File dir = new File(getCacheDir(), "receipts");
+                      dir.mkdirs();
+                      File f = new File(dir, "receipt.jpg");
+                      photoUri = FileProvider.getUriForFile(this, getPackageName() + ".files", f);
+                      Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                      i.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                      i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                      startActivityForResult(i, REQ_CAMERA);
+                  } catch (Exception e) {
+                      fail("카메라를 열 수 없어요. 앨범에서 골라주세요.");
+                  }
+              }
+
+              private void openGallery() {
+                  try {
+                      Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                      i.setType("image/*");
+                      startActivityForResult(Intent.createChooser(i, "영수증 사진 고르기"), REQ_GALLERY);
+                  } catch (Exception e) {
+                      fail("앨범을 열 수 없어요.");
+                  }
+              }
+
+              @Override
+              protected void onActivityResult(int req, int res, Intent data) {
+                  super.onActivityResult(req, res, data);
+                  if (req != REQ_CAMERA && req != REQ_GALLERY) return;
+                  if (res != RESULT_OK) { status(""); return; }
+                  Uri u = req == REQ_CAMERA ? photoUri : (data != null ? data.getData() : null);
+                  if (u == null) { fail("사진을 가져오지 못했어요."); return; }
+                  recognize(u);
+              }
+
+              private void recognize(Uri u) {
+                  status("영수증 읽는 중…");
+                  try {
+                      InputImage img = InputImage.fromFilePath(this, u);
+                      TextRecognition.getClient(new KoreanTextRecognizerOptions.Builder().build())
+                          .process(img)
+                          .addOnSuccessListener(this::onText)
+                          .addOnFailureListener(e -> fail("글자를 읽지 못했어요. 다시 찍어주세요."));
+                  } catch (Exception e) {
+                      fail("사진을 열 수 없어요.");
+                  }
+              }
+
+              private void onText(Text text) {
+                  List<ReceiptParser.Line> lines = new ArrayList<>();
+                  for (Text.TextBlock b : text.getTextBlocks()) {
+                      for (Text.Line l : b.getLines()) {
+                          Rect r = l.getBoundingBox();
+                          if (r == null) r = new Rect(0, 0, 0, 0);
+                          lines.add(new ReceiptParser.Line(l.getText(), r.left, r.top, r.right, r.bottom));
+                      }
+                  }
+                  ReceiptParser.Result r = ReceiptParser.parse(lines);
+                  if (r.total <= 0) { fail("영수증에서 금액을 찾지 못했어요. 밝은 곳에서 가까이 찍어주세요."); return; }
+                  try {
+                      JSONObject o = new JSONObject();
+                      o.put("ok", true);
+                      o.put("total", r.total);
+                      o.put("store", r.store);
+                      js("window.onReceiptResult&&window.onReceiptResult(" + o + ")");
+                  } catch (Exception e) {
+                      fail("결과를 처리하지 못했어요.");
+                  }
+              }
+
+              private void fail(String msg) {
+                  try {
+                      JSONObject o = new JSONObject();
+                      o.put("ok", false);
+                      o.put("error", msg);
+                      js("window.onReceiptResult&&window.onReceiptResult(" + o + ")");
+                  } catch (Exception ignored) {}
+              }
+
+              private void status(String msg) {
+                  js("window.onReceiptStatus&&window.onReceiptStatus(" + JSONObject.quote(msg) + ")");
+              }
+
+              private void js(String code) {
+                  web.post(() -> web.evaluateJavascript(code, null));
               }
           }
+          EOF_X
+          cat > app/src/main/java/com/nbbang/qr/ReceiptParser.java <<'EOF_X'
+          package com.nbbang.qr;
+
+          import java.util.ArrayList;
+          import java.util.List;
+          import java.util.regex.Matcher;
+          import java.util.regex.Pattern;
+
+          /** 영수증 글자 줄들에서 최종 결제 금액과 가게 이름을 찾는다. */
+          public class ReceiptParser {
+              public static class Line {
+                  public final String text; public final int left, top, right, bottom;
+                  public Line(String text, int left, int top, int right, int bottom) {
+                      this.text = text; this.left = left; this.top = top; this.right = right; this.bottom = bottom;
+                  }
+                  int cy() { return (top + bottom) / 2; }
+                  int h() { return Math.max(1, bottom - top); }
+              }
+
+              public static class Result {
+                  public final long total; public final String store;
+                  Result(long total, String store) { this.total = total; this.store = store; }
+              }
+
+              // 앞에 있을수록 우선
+              private static final String[] KEYS = {
+                  "받을금액", "결제금액", "결제할금액", "청구금액", "총결제금액", "합계금액", "총합계", "총금액",
+                  "판매합계", "판매금액", "승인금액", "카드승인", "합계", "총액", "total"
+              };
+              private static final String[] SKIP = { "부가세", "과세", "면세", "공급가", "할인", "봉사료", "거스름", "받은금액", "포인트", "적립" };
+              private static final Pattern COMMA = Pattern.compile("(?<![\\d.,])(\\d{1,3}(?:[,.]\\d{3})+)(?![\\d,.]*\\d{2}[:/-])");
+              private static final Pattern PLAIN_WON = Pattern.compile("(?<![\\d,])(\\d{3,8})\\s*원");
+
+              static String norm(String s) { return s.replace(" ", "").toLowerCase(); }
+
+              static List<Long> amounts(String text) {
+                  List<Long> out = new ArrayList<>();
+                  if (text.matches(".*\\d{2,4}[-/.]\\d{1,2}[-/.]\\d{1,2}.*") || text.matches(".*\\d{1,2}:\\d{2}.*")) return out; // 날짜·시간
+                  if (text.matches(".*\\d{2,4}-\\d{3,4}-\\d{4}.*")) return out; // 전화·카드번호
+                  Matcher m = COMMA.matcher(text);
+                  while (m.find()) add(out, m.group(1).replaceAll("[,.]", ""));
+                  Matcher p = PLAIN_WON.matcher(text);
+                  while (p.find()) add(out, p.group(1));
+                  return out;
+              }
+
+              private static void add(List<Long> out, String digits) {
+                  try {
+                      long v = Long.parseLong(digits);
+                      if (v >= 100 && v <= 50_000_000) out.add(v);
+                  } catch (NumberFormatException ignored) {}
+              }
+
+              private static boolean skip(String n) {
+                  for (String s : SKIP) if (n.contains(s)) return true;
+                  return false;
+              }
+
+              public static Result parse(List<Line> lines) {
+                  long total = 0;
+                  outer:
+                  for (String key : KEYS) {
+                      for (Line k : lines) {
+                          String n = norm(k.text);
+                          if (!n.contains(key) || skip(n)) continue;
+                          // 1) 같은 줄
+                          List<Long> same = amounts(k.text);
+                          if (!same.isEmpty()) { total = same.get(same.size() - 1); break outer; }
+                          // 2) 같은 높이의 오른쪽
+                          Line best = null;
+                          for (Line o : lines) {
+                              if (o == k || o.left < k.left) continue;
+                              if (Math.abs(o.cy() - k.cy()) <= k.h() && !amounts(o.text).isEmpty()) {
+                                  if (best == null || o.left > best.left) best = o;
+                              }
+                          }
+                          if (best != null) { List<Long> a = amounts(best.text); total = a.get(a.size() - 1); break outer; }
+                          // 3) 바로 아래 줄
+                          Line below = null;
+                          for (Line o : lines) {
+                              int dy = o.cy() - k.cy();
+                              if (dy > 0 && dy <= k.h() * 2.5 && !amounts(o.text).isEmpty() && !skip(norm(o.text))) {
+                                  if (below == null || dy < below.cy() - k.cy()) below = o;
+                              }
+                          }
+                          if (below != null) { List<Long> a = amounts(below.text); total = a.get(a.size() - 1); break outer; }
+                      }
+                  }
+                  if (total == 0) {
+                      for (Line l : lines) {
+                          if (skip(norm(l.text))) continue;
+                          for (long v : amounts(l.text)) if (v > total) total = v;
+                      }
+                  }
+                  return new Result(total, store(lines));
+              }
+
+              static String store(List<Line> lines) {
+                  Line top = null;
+                  for (Line l : lines) {
+                      String t = l.text.trim();
+                      if (t.length() < 2 || t.length() > 20) continue;
+                      if (!t.matches(".*[가-힣].*") || t.matches(".*\\d.*")) continue;
+                      if (t.contains("영수증") || t.contains("매출") || t.contains("고객") || t.contains("주문")) continue;
+                      if (top == null || l.top < top.top) top = l;
+                  }
+                  return top == null ? "영수증" : top.text.trim();
+              }
+          }
+          EOF_X
+          cat > app/src/main/res/drawable/ic_launcher.xml <<'EOF_X'
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+              <path android:fillColor="#2F5BFF" android:pathData="M24,0h60a24,24 0,0 1,24 24v60a24,24 0,0 1,-24 24h-60a24,24 0,0 1,-24 -24v-60a24,24 0,0 1,24 -24z"/>
+              <path android:fillColor="#FFFFFF" android:pathData="M28,28h20v20h-20z M60,28h20v20h-20z M28,60h20v20h-20z"/>
+              <path android:fillColor="#2F5BFF" android:pathData="M34,34h8v8h-8z M66,34h8v8h-8z M34,66h8v8h-8z"/>
+              <path android:fillColor="#FFE36E" android:pathData="M60,60h8v8h-8z M72,60h8v8h-8z M60,72h8v8h-8z M72,72h8v8h-8z"/>
+          </vector>
+          EOF_X
+          cat > app/src/main/res/values/strings.xml <<'EOF_X'
+          <resources><string name="app_name">N빵 QR</string></resources>
+          EOF_X
+          cat > app/src/main/res/xml/file_paths.xml <<'EOF_X'
+          <?xml version="1.0" encoding="utf-8"?>
+          <paths><cache-path name="receipts" path="receipts/" /></paths>
+          EOF_X
+          cat > build.gradle <<'EOF_X'
+          plugins { id 'com.android.application' version '8.5.2' apply false }
+          EOF_X
+          cat > gradle.properties <<'EOF_X'
+          org.gradle.jvmargs=-Xmx2048m
+          android.useAndroidX=true
+          EOF_X
+          cat > settings.gradle <<'EOF_X'
+          pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+          dependencyResolutionManagement { repositories { google(); mavenCentral() } }
+          rootProject.name = "NbbangQR"
+          include ':app'
           EOF_X
           base64 -d app.b64 | gunzip > app/src/main/assets/index.html
           curl -fsSL https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js -o app/src/main/assets/qrcode.js
