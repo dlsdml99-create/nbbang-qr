@@ -12,7 +12,7 @@ jobs:
       - name: Write app data
         run: |
           cat > app.b64 <<'EOF_B'
-          H4sIAI873WoC/+V9/XcbVZbg7/4rKkXWR4VLsuwQCJLLGUKHaRZI0zGzZ/c4HlySynZhSaVUlRwL
+          H4sIAFRE3WoC/+V9/XcbVZbg7/4rKkXWR4VLsuwQCJLLGUKHaRZI0zGzZ/c4HlySynZhSaVUlRwL
           RXsCBNZNwgDTMZjuhAnTQAIDZ9MhNMlOevacnv+EHyP5f9h773uv6r36kJXA7PY5y+mOpar3cd99
           9/vd+7RwqOHVw17H0TbCVnNxAf/VmnZ73dI3PR2+O3ZjcaHlhLZW37D9wAktvRuuFY/p/GnbbjmW
           vuU65zqeH+pa3WuHThtanXMb4YbVcLbculOkL6bbdkPXbhaDut10rDlT9CquuaFV97YcX1+cWgjC
@@ -238,14 +238,14 @@ jobs:
           +wEHXLoRXw5rYHf2UcVGRE3swCU6JcYftdh/9z79vMW7X1KV2P2roxs78rVeF6+Kq27w4if+g7bs
           Jpkbn47+tIe/iIHYUHi2P+EWD8w5Kvn7KSM8WaYR2FVBOSV1IIaRyUAqVuRrnu58A19I0dIlYbs7
           0TUSyMgaXjh66ZpyDRTdaqYNf/vH4WfXkjVzaDrl60OA/LTQX8lrZ5rAZ+rqzPRVNEgidk2VXfxZ
-          Hc3nU0BsePsNuAIN57+wi2+UXxXURfOMGxKQ4nUT79pxSh3MdmmHv3DWbKCl9E0fyuUodCUKSy+g
-          lFpt9L8+G93eIyGYrAPNwIU4beVL9cRzdhO1FQJAidnDQVb7004AsFpRBgsepmH9sreZLODzSzCK
-          7zqBge/55+Q5EN3CDXhuWGUz6LbESRLarqKHkBlOlvWavMPFYRY6Xd0ibm1ZsMqJBFdNvlabC2OH
-          3dSCPti9O8PfXuXI1pWrW/jpjR95EeKil8hkqihXuWhscTMzVVjcDDsCTVqP6Qtf+OPEftBIx0W4
-          7XCfvg8e/PGOya1VmOKnXwJT0XlXsKn4bUX8ckLug8RAxxgdSAast2lFBMH9pcVyZMV6m+fPM4KJ
-          8wjH3KjD0YsxRLpGB3cnujtH3Rlv87hECMJTq5Qn3yx1G2A8fFvhV8dn7wk04nfxzOB9puovnFC0
-          +qdshh5RkXL7WnQrFVqWexeg//C9WxnXJT3kXWxjrv9hO+b4vucrWyAuWHvo+3/SWmRhtuY1eosL
-          sxthq7k49X8An1PCbfepAAA=
+          Hc3nU0BsePsNuAIN57+wi2+UXxXU4wlbwQE3QfM7oAOjFWTOmHHJAjKNbuJ1PU6pgwkz7fAXzpoN
+          5Ji+LES+X+WifBvFvTvD314FqNmO/a/PRrf3SJ4mS0oz0CoObjnWPPGcXWpthQBYAopwkNX+tBMA
+          zFaUDIPnclgK7W0mawH9Eoziu05g4Hv+OXmkRBd6AwIbVtkMui1xKIVmsOghxI+TZQgnr4NxmLFP
+          t8CIC2AWrHIiV1aTb+jmct1hl76gO0do5u6HrtwCww+C/MghEXfGRNZXRbkVRmOLm5mpwuJm2Glq
+          0hBN3x3DHyf2g0Y6LiJ3h/v0ffDgj3dMbvjCFD/9PpmKzruCecYvPuL3HHJ3JgY6xuhAsoW9TSsi
+          CO56LZYjg9jbPH+eEUyckjjmch6OXgxH0o08uDvRNTzqznibxyVCEE5fpTz5ZqnbAOPh2wq/hT57
+          T6ARv9ZnBq9GVX8shQLfP2Uz9IiKlIvcoguu0EjduwD9h+/dyrh56SGvdRtzkxDbMcf3PV/ZAnFX
+          20NfJZRWSAuzNa/RW1yY3QhbzcWp/wPEL/qzQqoAAA==
           EOF_B
           cat > key.b64 <<'EOF_K'
           MIIKNAIBAzCCCd4GCSqGSIb3DQEHAaCCCc8EggnLMIIJxzCCBa4GCSqGSIb3DQEHAaCCBZ8EggWb
@@ -373,7 +373,7 @@ jobs:
           public class CardParser {
               public static class Entry {
                   public final String name; public final long amount;
-                  Entry(String name, long amount) { this.name = name; this.amount = amount; }
+                  public Entry(String name, long amount) { this.name = name; this.amount = amount; }
               }
 
               private static final String[] DETAIL_KEYS = { "승인금액", "결제금액", "이용금액", "거래금액" };
@@ -533,16 +533,30 @@ jobs:
               private WebView web;
               private Uri photoUri;
               private boolean cardMode;
+              private boolean pageReady;
+              private final List<String> pendingJs = new ArrayList<>();
 
               @Override
               protected void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
+                  if (savedInstanceState != null) {
+                      // 카메라를 여는 동안 앱이 정리됐다가 다시 켜져도 찍은 사진을 잃지 않게
+                      photoUri = savedInstanceState.getParcelable("photoUri");
+                      cardMode = savedInstanceState.getBoolean("cardMode");
+                  }
                   web = new WebView(this);
                   WebSettings s = web.getSettings();
                   s.setJavaScriptEnabled(true);
                   s.setDomStorageEnabled(true);
                   web.addJavascriptInterface(new Bridge(), "Android");
                   web.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public void onPageFinished(WebView view, String url) {
+                          pageReady = true;
+                          for (String c : pendingJs) web.evaluateJavascript(c, null);
+                          pendingJs.clear();
+                      }
+
                       @Override
                       public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                           Uri u = req.getUrl();
@@ -645,8 +659,8 @@ jobs:
               private void chooseSource() {
                   new AlertDialog.Builder(this)
                       .setTitle("사진으로 금액 넣기")
-                      .setItems(new String[]{"영수증 카메라로 찍기", "영수증 앨범에서 고르기", "카드사 앱 결제내역 캡처 고르기"}, (d, which) -> {
-                          cardMode = which == 2;
+                      .setItems(new String[]{"사진 촬영 (영수증)", "앨범에서 가져오기 (카드사 앱 캡처)"}, (d, which) -> {
+                          cardMode = which == 1;
                           if (which == 0) openCamera(); else openGallery();
                       })
                       .setOnCancelListener(d -> status(""))
@@ -672,7 +686,7 @@ jobs:
                   try {
                       Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                       i.setType("image/*");
-                      startActivityForResult(Intent.createChooser(i, cardMode ? "결제내역 캡처 고르기" : "영수증 사진 고르기"), REQ_GALLERY);
+                      startActivityForResult(Intent.createChooser(i, "카드사 앱 캡처 고르기"), REQ_GALLERY);
                   } catch (Exception e) {
                       fail("앨범을 열 수 없어요.");
                   }
@@ -689,7 +703,7 @@ jobs:
               }
 
               private void recognize(Uri u) {
-                  status(cardMode ? "결제내역 읽는 중…" : "영수증 읽는 중…");
+                  status(cardMode ? "캡처 읽는 중…" : "영수증 읽는 중…");
                   new Thread(() -> {
                       Bitmap bmp;
                       String name;
@@ -819,8 +833,25 @@ jobs:
               }
 
               private void onCardLines(List<ReceiptParser.Line> lines, String receipt) {
-                  List<CardParser.Entry> es = CardParser.parse(lines);
-                  if (es.isEmpty()) { fail("결제내역에서 금액을 찾지 못했어요. 금액이 보이게 캡처해 주세요.", receipt); return; }
+                  // 앨범에서 고른 게 종이 영수증 사진이면 영수증 방식으로 읽는다
+                  boolean paper = false;
+                  for (ReceiptParser.Line l : lines) {
+                      String n = ReceiptParser.norm(l.text);
+                      if (n.contains("사업자") || n.contains("부가세") || n.contains("공급가") || n.contains("받을금액") || n.contains("영수증")) { paper = true; break; }
+                  }
+                  List<CardParser.Entry> es = paper ? new ArrayList<>() : CardParser.parse(lines);
+                  if (es.isEmpty()) {
+                      // 앨범에 있는 영수증 사진일 수도 있으니 영수증 방식으로 한 번 더 읽는다
+                      ReceiptParser.Result r = ReceiptParser.parse(lines);
+                      if (r.total > 0) {
+                          List<CardParser.Entry> one = new ArrayList<>();
+                          one.add(new CardParser.Entry(r.store, r.total));
+                          sendEntries(one, receipt);
+                      } else {
+                          fail("사진에서 금액을 찾지 못했어요. 금액이 보이게 캡처해 주세요.", receipt);
+                      }
+                      return;
+                  }
                   if (es.size() == 1) { sendEntries(es, receipt); return; }
                   String[] labels = new String[es.size()];
                   boolean[] checked = new boolean[es.size()];
@@ -881,8 +912,18 @@ jobs:
                   js("window.onReceiptStatus&&window.onReceiptStatus(" + JSONObject.quote(msg) + ")");
               }
 
+              @Override
+              protected void onSaveInstanceState(Bundle out) {
+                  super.onSaveInstanceState(out);
+                  if (photoUri != null) out.putParcelable("photoUri", photoUri);
+                  out.putBoolean("cardMode", cardMode);
+              }
+
               private void js(String code) {
-                  web.post(() -> web.evaluateJavascript(code, null));
+                  web.post(() -> {
+                      if (pageReady) web.evaluateJavascript(code, null);
+                      else pendingJs.add(code);
+                  });
               }
           }
           EOF_X
