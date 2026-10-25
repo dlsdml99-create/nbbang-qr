@@ -1,13 +1,22 @@
-name: Build APK
+# [N빵용] build.yml - dlsdml99-create/nbbang-qr 저장소에만 올리세요 (챙김이 저장소 X)
+name: N빵 APK 만들기
 on:
   push:
   workflow_dispatch:
 permissions:
   contents: write
+  pages: write
+  id-token: write
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: 저장소 확인
+        run: |
+          if [ "${{ github.repository }}" != "dlsdml99-create/nbbang-qr" ]; then
+            echo "::error::이 build.yml은 N빵(nbbang-qr) 저장소용이에요. 다른 앱 저장소에는 그 앱용 build.yml을 올려주세요."
+            exit 1
+          fi
       - uses: actions/checkout@v4
       - name: Write app data
         run: |
@@ -1097,4 +1106,289 @@ jobs:
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk nbbang-qr.apk
           gh release delete latest --yes --cleanup-tag || true
-          gh release create "v${{ github.run_number }}" nbbang-qr.apk --latest --title "N빵 v1.${{ github.run_number }}" --notes "폰에서 nbbang-qr.apk를 눌러 받아 설치하세요."
+          cat > notes.md <<'EOF_N'
+          ## [:arrow_down: N빵 다운로드 (v1.__N__ · __MB__MB)](https://github.com/dlsdml99-create/nbbang-qr/releases/download/v__N__/nbbang-qr.apk)
+
+          > 안드로이드 7.0 이상 · 무료 · 광고 없음 · 회원가입 없음
+          > 폰에서 위 링크를 누르면 바로 받아져요. 아래 **설치하는 법**을 참고하세요.
+
+          ---
+
+          ### :chopsticks: N빵은 이런 앱이에요
+          모임 끝나고 **"얼마씩 보내면 돼?"를 바로 정리**해 주는 앱이에요. 1인당 금액을 계산하고, 친구들이 바로 송금할 수 있는 QR과 정산 메시지를 만들어요.
+
+          | 기능 | 설명 |
+          | --- | --- |
+          | 여러 곳 합산 | 1차, 2차처럼 금액을 여러 개 넣으면 합쳐서 나눠요 |
+          | 영수증·결제 캡처 읽기 | 영수증 사진이나 카드사 앱 캡처에서 금액과 가게 이름을 자동으로 넣어요 |
+          | 송금 QR | 내 계좌로 바로 보내는 QR을 만들고, 토스·카카오톡 송금 링크도 쓸 수 있어요 |
+          | 정산 공유 | 금액·계좌·영수증 사진을 카톡방에 한 번에 보낼 수 있어요 |
+
+          **쓰는 순서:** (1) 처음 한 번 내 은행·계좌(또는 카카오톡 송금 링크) 입력 -> (2) 금액 입력 또는 영수증 찍기, 인원 정하기 -> (3) QR을 보여주거나 **공유**로 단톡방에 보내기
+
+          ### :calling: 설치하는 법
+          1. 안드로이드 폰에서 맨 위 **다운로드** 링크를 눌러요.
+          2. 다운로드가 끝나면 알림이나 **내 파일 -> 다운로드**에서 받은 파일을 눌러요.
+          3. "출처를 알 수 없는 앱" 안내가 나오면 **설정 -> 이 출처 허용**을 켜고 돌아와요.
+          4. **설치**를 누르면 끝! Play 프로텍트 경고가 뜨면 **세부정보 더보기 -> 무시하고 설치**를 눌러요.
+
+          ### :lock: 안심하고 쓰세요
+          | 확인한 것 | 결과 |
+          | --- | --- |
+          | 요청하는 권한 | 인터넷 |
+          | 없는 권한 | 연락처, 위치, 문자, 통화, 사진첩·저장소, 마이크 |
+          | 인터넷으로 하는 일 | 새 버전 확인, 화면 글꼴 불러오기 |
+          | 내 계좌 정보 | **내 폰 안에만** 저장돼요. 앱에 다른 사람 계좌가 미리 들어 있지 않아요 |
+          | 광고 · 추적 | 없음 |
+          | 서명 지문 (SHA-256) | `66:1B:30:33:26:CE:9C:A5...` |
+
+          ---
+          아이폰은 지원하지 않아요. · 같이 만든 앱: [챙김이 - 유통기한·교체 주기 알림](https://github.com/dlsdml99-create/gyoche-check/releases/latest)
+          EOF_N
+          sed -i "s/__N__/${{ github.run_number }}/g; s/__MB__/$(du -m nbbang-qr.apk | cut -f1)/g" notes.md
+          gh release create "v${{ github.run_number }}" nbbang-qr.apk --latest --title "N빵 v1.${{ github.run_number }}" --notes-file notes.md
+      - name: Build download page
+        run: |
+          mkdir -p site
+          cat > site/index.html <<'EOF_P'
+          <!doctype html>
+          <html lang="ko"><head><meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+          <title>N빵 다운로드</title>
+          <meta name="description" content="더치페이 계산과 송금 QR을 만들어 주는 안드로이드 앱">
+          <meta property="og:title" content="N빵 &#x2014; 더치페이 계산 · 송금 QR">
+          <meta property="og:description" content="더치페이 계산과 송금 QR을 만들어 주는 안드로이드 앱. 무료 · 광고 없음">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+          <style>
+          /* 레이아웃: 위에 앱 두 장(받기 버튼 + 폰으로 찍는 QR), 아래로 앱별 설명 &#x2192; 설치 방법 &#x2192; 안전 정보 &#x2192; 자주 묻는 질문 */
+          :root {
+            --bg: #F3F4F1; --surface: #FFFFFF; --ink: #1B211E; --sub: #5E6762; --line: #DFE3DD;
+            --nb: #2F5BFF; --nb-soft: #E6ECFF; --cg: #2E7D5B; --cg-soft: #E1F0E8; --warn: #A15C00; --warn-soft: #FFF2D9;
+            --f-display: "Do Hyeon", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+            --f-body: "IBM Plex Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+            --shadow: 0 1px 2px rgba(20,30,25,.06), 0 6px 20px rgba(20,30,25,.06);
+          }
+          @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+            --bg: #121614; --surface: #1C211E; --ink: #EEF1EE; --sub: #A3ABA6; --line: #2E3532;
+            --nb: #7D97FF; --nb-soft: #1E2645; --cg: #5DBB8E; --cg-soft: #1A3127; --warn: #F2B65A; --warn-soft: #33270F;
+            --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark; } }
+          :root[data-theme="dark"] {
+            --bg: #121614; --surface: #1C211E; --ink: #EEF1EE; --sub: #A3ABA6; --line: #2E3532;
+            --nb: #7D97FF; --nb-soft: #1E2645; --cg: #5DBB8E; --cg-soft: #1A3127; --warn: #F2B65A; --warn-soft: #33270F;
+            --shadow: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark; }
+
+          * { box-sizing: border-box; }
+          body { background: var(--bg); color: var(--ink); font: 16px/1.65 var(--f-body); margin: 0; }
+          .wrap { max-width: 920px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 48px; }
+          h1, h2, h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.2px; text-wrap: balance; margin: 0; line-height: 1.2; }
+          h1 { font-size: clamp(36px, 7vw, 54px); }
+          h2 { font-size: 30px; }
+          h3 { font-size: 22px; }
+          p { margin: 0; }
+          a { color: inherit; }
+          .lead { color: var(--sub); max-width: 58ch; margin-top: 12px; }
+          .eyebrow { font-size: 13px; letter-spacing: .08em; color: var(--sub); font-weight: 700; margin-bottom: 10px; }
+
+          /* 앱 카드 */
+          .apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+          .app { background: var(--surface); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); display: grid; gap: 16px; align-content: start; min-width: 0; }
+          .app-top { display: flex; gap: 16px; align-items: center; }
+          .app-top svg.icon { width: 76px; height: 76px; flex: none; border-radius: 20px; }
+          .app-name { font-family: var(--f-display); font-size: 32px; line-height: 1.1; }
+          .app-tag { color: var(--sub); font-size: 15px; margin-top: 2px; }
+          .facts { display: flex; flex-wrap: wrap; gap: 6px; }
+          .fact { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--bg); color: var(--sub); font-variant-numeric: tabular-nums; }
+          .get { display: flex; gap: 14px; align-items: center; }
+          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 18px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 16px; }
+          .btn svg { width: 20px; height: 20px; flex: none; }
+          .btn.nb { background: var(--nb); color: #fff; }
+          .btn.cg { background: var(--cg); color: #fff; }
+          :root[data-theme="dark"] .btn.nb, :root[data-theme="dark"] .btn.cg { color: #0E1210; }
+          @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.nb, :root:not([data-theme="light"]) .btn.cg { color: #0E1210; } }
+          .btn:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+          .get .stack { display: grid; gap: 6px; flex: 1; min-width: 0; }
+          .get .stack .btn { width: 100%; }
+          .small-link { font-size: 14px; color: var(--sub); }
+          .qr { flex: none; display: grid; justify-items: center; gap: 4px; font-size: 11.5px; color: var(--sub); text-align: center; width: 104px; }
+          .qr .code { width: 96px; height: 96px; background: #fff; border-radius: 10px; padding: 6px; }
+          .qr .code svg { width: 100%; height: 100%; display: block; }
+
+          /* 설명 */
+          .detail { display: grid; grid-template-columns: 1fr; gap: 18px; }
+          .detail-head { display: flex; gap: 14px; align-items: center; }
+          .detail-head svg.icon { width: 44px; height: 44px; border-radius: 12px; flex: none; }
+          .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+          .box { background: var(--surface); border-radius: 18px; padding: 20px; box-shadow: var(--shadow); min-width: 0; }
+          .box h3 { font-size: 19px; margin-bottom: 10px; font-family: var(--f-body); font-weight: 700; }
+          ul.feat { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+          ul.feat li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+          ul.feat li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; margin: 9px 0 0 6px; background: var(--dot, var(--ink)); }
+          .nbx { --dot: var(--nb); } .cgx { --dot: var(--cg); }
+          ul.feat b { font-weight: 700; }
+          ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; }
+          ol.steps li { counter-increment: s; display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start; }
+          ol.steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+          .tabs-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 12px; }
+          .tabchip { font-size: 13.5px; padding: 4px 11px; border-radius: 999px; background: var(--cg-soft); color: var(--cg); font-weight: 700; }
+
+          /* 설치 */
+          .note { background: var(--warn-soft); color: var(--ink); border-radius: 14px; padding: 14px 16px; font-size: 15px; }
+          .note b { color: var(--warn); }
+
+          /* 안전 표 */
+          .table-wrap { overflow-x: auto; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); }
+          table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 15px; }
+          th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+          th { font-size: 13px; color: var(--sub); font-weight: 700; letter-spacing: .02em; }
+          tr:last-child td { border-bottom: 0; }
+          td:first-child { font-weight: 700; white-space: nowrap; }
+          .ok { color: var(--cg); font-weight: 700; }
+          .mono { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 13px; color: var(--sub); word-break: break-all; }
+
+          details { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 4px 18px; }
+          details + details { margin-top: 8px; }
+          summary { cursor: pointer; font-weight: 700; padding: 12px 0; list-style-position: outside; }
+          details p { padding: 0 0 14px; color: var(--sub); }
+          footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
+          @media (max-width: 420px) { .qr { display: none; } }
+          @media (prefers-reduced-motion: no-preference) { .btn { transition: transform .12s; } .btn:active { transform: scale(.98); } }
+          </style>
+          <style>
+          .hero-app { display: grid; justify-items: center; text-align: center; gap: 14px; background: var(--surface); border-radius: 26px; padding: 34px 20px 28px; box-shadow: var(--shadow); }
+          .hero-app svg.icon { width: 112px; height: 112px; border-radius: 28px; }
+          .hero-app .app-name { font-size: clamp(40px, 9vw, 56px); }
+          .hero-app .app-tag { font-size: 17px; }
+          .hero-app .facts { justify-content: center; }
+          .hero-app .btn { font-size: 19px; padding: 17px 28px; width: min(100%, 360px); border-radius: 16px; }
+          .hero-app .qr { width: auto; }
+          .hero-app .qr .code { width: 120px; height: 120px; }
+          .pc-only { display: none; }
+          @media (min-width: 700px) and (hover: hover) { .pc-only { display: grid; } }
+          .other { display: flex; gap: 14px; align-items: center; background: var(--surface); border-radius: 18px; padding: 16px 18px; box-shadow: var(--shadow); text-decoration: none; }
+          .other svg.icon { width: 48px; height: 48px; border-radius: 13px; flex: none; }
+          .other b { font-family: var(--f-display); font-weight: 400; font-size: 22px; display: block; line-height: 1.2; }
+          .other span { color: var(--sub); font-size: 14px; }
+          .wrap.one { max-width: 720px; gap: 40px; padding-block: 24px 56px; }
+          </style>
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+            <defs>
+              <symbol id="ic-cg" viewBox="0 0 108 108">
+                <rect width="108" height="108" fill="#2E7D5B"/>
+                <g transform="translate(54 54) scale(1.16) translate(-54 -52)">
+                  <path fill="#FFFFFF" d="M30,64 C30,47 41,38 54,38 C67,38 78,47 78,64 C78,77 67,83 54,83 C41,83 30,77 30,64 Z"/>
+                  <path fill="#1E2421" d="M43,59a3.4,3.4 0 1,0 6.8,0a3.4,3.4 0 1,0 -6.8,0 M58.2,59a3.4,3.4 0 1,0 6.8,0a3.4,3.4 0 1,0 -6.8,0"/>
+                  <path fill="#FF9E8A" d="M36.5,67a4,2.6 0 1,0 8,0a4,2.6 0 1,0 -8,0 M63.5,67a4,2.6 0 1,0 8,0a4,2.6 0 1,0 -8,0"/>
+                  <path fill="none" stroke="#1E2421" stroke-width="2.6" stroke-linecap="round" d="M49,67.5 Q54,72 59,67.5"/>
+                  <path fill="none" stroke="#FFD45C" stroke-width="4" stroke-linecap="round" d="M51.5,34 L53,39.5"/>
+                  <path fill="none" stroke="#FFD45C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" d="M44.5,27 L51.5,34 L64,20.5"/>
+                </g>
+              </symbol>
+              <symbol id="ic-nb" viewBox="0 0 108 108">
+                <rect width="108" height="108" fill="#2F5BFF"/>
+                <g transform="rotate(-38 55 54)">
+                  <path fill="#D98E3A" stroke="#8E4F16" stroke-width="2.5" d="M47,28 a8,8 0 0 1 16,0 v52 a8,8 0 0 1 -16,0 z"/>
+                  <path stroke="#F7D58E" stroke-width="3" stroke-linecap="round" d="M51,41 L59,33 M51,58 L59,50 M51,75 L59,67"/>
+                </g>
+                <path fill="#D98E3A" stroke="#8E4F16" stroke-width="2.5" d="M24,32 a8,8 0 0 1 16,0 v44 a8,8 0 0 1 -16,0 z"/>
+                <path stroke="#F7D58E" stroke-width="3" stroke-linecap="round" d="M28,43 L36,35 M28,58 L36,50 M28,73 L36,65"/>
+                <path fill="#D98E3A" stroke="#8E4F16" stroke-width="2.5" d="M68,32 a8,8 0 0 1 16,0 v44 a8,8 0 0 1 -16,0 z"/>
+                <path stroke="#F7D58E" stroke-width="3" stroke-linecap="round" d="M72,43 L80,35 M72,58 L80,50 M72,73 L80,65"/>
+              </symbol>
+              <symbol id="ic-down" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+            </defs>
+          </svg>
+
+          <style>[hidden]{display:none!important}</style>
+          </head><body>
+          <main class="wrap one">
+            <section class="hero-app" aria-label="N빵 다운로드">
+              <svg class="icon" role="img" aria-label="N빵 아이콘"><use href="#ic-nb"/></svg>
+              <div><div class="app-name">N빵</div><p class="app-tag">더치페이 계산 · 송금 QR</p></div>
+              <div class="facts"><span class="fact">v1.__N__</span><span class="fact">__MB__MB</span><span class="fact">안드로이드 7.0 이상</span><span class="fact">무료 · 광고 없음</span></div>
+              <a class="btn nb" href="https://github.com/dlsdml99-create/nbbang-qr/releases/download/v__N__/nbbang-qr.apk"><svg><use href="#ic-down"/></svg>N빵 다운로드</a>
+              <a class="small-link" href="#install-h">설치가 처음이라면 아래 설치하는 법을 봐주세요</a>
+              <div class="qr pc-only"><div class="code" id="qr-nb"></div>PC로 보고 있다면 폰 카메라로 찍으세요</div>
+            </section>
+            <section class="detail" aria-labelledby="nb-h">
+              <div class="detail-head"><svg class="icon" aria-hidden="true"><use href="#ic-nb"/></svg><h2 id="nb-h">N빵은 이런 앱이에요</h2></div>
+              <p class="lead" style="margin:0">모임 끝나고 "얼마씩 보내면 돼?"를 바로 정리해 주는 앱이에요. 1인당 금액을 계산하고, 친구들이 바로 송금할 수 있는 QR과 정산 메시지를 만들어요.</p>
+              <div class="cols">
+                <div class="box"><h3>주요 기능</h3>
+                  <ul class="feat nbx">
+                    <li><span><b>여러 곳 합산</b> · 1차, 2차처럼 금액을 여러 개 넣으면 합쳐서 나눠요.</span></li>
+                    <li><span><b>영수증·결제 캡처 읽기</b> · 영수증 사진이나 카드사 앱 캡처에서 금액과 가게 이름을 자동으로 넣어요.</span></li>
+                    <li><span><b>송금 QR</b> · 내 계좌로 바로 보내는 QR을 만들고, 토스·카카오톡 송금 링크도 쓸 수 있어요.</span></li>
+                    <li><span><b>정산 공유</b> · 금액·계좌·영수증 사진을 카톡방에 한 번에 보낼 수 있어요.</span></li>
+                  </ul>
+                </div>
+                <div class="box"><h3>이렇게 써요</h3>
+                  <ol class="steps">
+                    <li><span>처음 한 번 내 은행·계좌(또는 카카오톡 송금 링크)를 넣어요. 이 정보는 내 폰에만 저장돼요.</span></li>
+                    <li><span>금액을 넣거나 영수증을 찍고, 인원 수를 정해요.</span></li>
+                    <li><span>나온 QR을 보여주거나 <b>공유</b>를 눌러 단톡방에 보내요.</span></li>
+                  </ol>
+                </div>
+              </div>
+            </section>
+            <section class="detail" aria-labelledby="install-h">
+              <h2 id="install-h">설치하는 법</h2>
+              <div class="box">
+                <ol class="steps">
+                  <li><span>안드로이드 폰에서 위의 <b>다운로드</b> 버튼을 눌러요. PC로 보고 있다면 폰 카메라로 QR을 찍으면 돼요.</span></li>
+                  <li><span>다운로드가 끝나면 알림이나 <b>내 파일 &#x2192; 다운로드</b>에서 받은 파일을 눌러요.</span></li>
+                  <li><span>"출처를 알 수 없는 앱" 안내가 나오면 <b>설정</b>을 눌러 지금 쓰는 브라우저(크롬, 삼성 인터넷 등)의 <b>이 출처 허용</b>을 켜고 돌아와요.</span></li>
+                  <li><span><b>설치</b>를 누르면 끝이에요. 다음 버전부터는 앱을 켤 때 "새 버전이 있어요" 창이 떠서 그대로 덮어 설치하면 돼요. 저장한 내용은 남아요.</span></li>
+                </ol>
+              </div>
+              <p class="note"><b>Play 프로텍트 경고가 뜨면</b> · 플레이스토어를 거치지 않은 앱이라 "알 수 없는 개발자" 안내가 나올 수 있어요. <b>세부정보 더보기 &#x2192; 무시하고 설치</b>를 누르면 돼요. 이 페이지의 링크로 받은 파일만 설치하세요.</p>
+            </section>
+            <section class="detail" aria-labelledby="safe-h">
+              <h2 id="safe-h">안심하고 쓰세요</h2>
+              <p class="lead" style="margin:0">회원가입이 없고, 계좌 정보와 정산 내용은 <b>내 폰 안에만</b> 저장돼요. 새 버전을 만들 때마다 설치 파일을 열어 직접 확인해요.</p>
+              <div class="table-wrap"><table style="min-width:0">
+                <tbody>
+                  <tr><td>요청하는 권한</td><td>인터넷</td></tr>
+                  <tr><td>없는 권한</td><td>연락처, 위치, 문자, 통화, 사진첩·저장소, 마이크</td></tr>
+                  <tr><td>인터넷으로 하는 일</td><td>새 버전 확인, 화면 글꼴 불러오기</td></tr>
+                  <tr><td>밖으로 보내는 내 정보</td><td class="ok">없음</td></tr>
+                  <tr><td>광고 · 추적</td><td class="ok">없음</td></tr>
+                  <tr><td>서명 지문</td><td class="mono">SHA-256 66:1B:30:33:26:CE:9C:A5&#x2026;</td></tr>
+                </tbody></table></div>
+            </section>
+            <footer>아이폰은 지원하지 않아요 · 만든 사람 <a href="https://github.com/dlsdml99-create">dlsdml99-create</a></footer>
+          </main>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+          <script>
+          (function () {
+            function draw(id, url) {
+              var el = document.getElementById(id);
+              if (!el || typeof qrcode !== 'function') { if (el) el.parentNode.hidden = true; return; }
+              try {
+                var q = qrcode(0, 'M'); q.addData(url); q.make();
+                var n = q.getModuleCount(), d = '';
+                for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) d += 'M' + c + ' ' + r + 'h1v1h-1z';
+                el.innerHTML = '<svg viewBox="0 0 ' + n + ' ' + n + '" shape-rendering="crispEdges" role="img" aria-label="다운로드 QR"><path fill="#111" d="' + d + '"/></svg>';
+              } catch (e) { el.parentNode.hidden = true; }
+            }
+            draw('qr-cg', 'https://github.com/dlsdml99-create/gyoche-check/releases/latest/download/gyoche-check.apk');
+            draw('qr-nb', 'https://github.com/dlsdml99-create/nbbang-qr/releases/download/v__N__/nbbang-qr.apk');
+          })();
+          </script>
+
+
+          </body></html>
+          EOF_P
+          sed -i "s/__N__/${{ github.run_number }}/g; s/__MB__/$(du -m nbbang-qr.apk | cut -f1)/g" site/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  pages:
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
