@@ -112,6 +112,7 @@ public class MainActivity extends Activity {
                         if (a.optString("name").endsWith(".apk")) { url = a.optString("browser_download_url"); break; }
                     }
                 }
+                js("window.AppInfo&&window.AppInfo.native('1." + latest + "')");
                 if (url == null || latest <= currentVersion()) return;
                 final String u = url;
                 runOnUiThread(() -> showUpdate(latest, u));
@@ -143,7 +144,11 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (web.canGoBack()) web.goBack(); else super.onBackPressed();
+        // 앱 정보 창 등이 열려 있으면 그것부터 닫는다
+        web.evaluateJavascript("window.onBackKey?String(window.onBackKey()):'false'", v -> {
+            if (v != null && v.contains("true")) return;
+            if (web.canGoBack()) web.goBack(); else finish();
+        });
     }
 
     class Bridge {
