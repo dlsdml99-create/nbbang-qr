@@ -62,6 +62,12 @@ public class MainActivity extends Activity {
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
+        // 보안: 앱 화면은 앱 안 파일만 열고, 폰의 다른 파일·콘텐츠는 못 읽게
+        s.setAllowFileAccess(false);
+        s.setAllowContentAccess(false);
+        s.setAllowFileAccessFromFileURLs(false);
+        s.setAllowUniversalAccessFromFileURLs(false);
+        WebView.setWebContentsDebuggingEnabled(false);
         web.addJavascriptInterface(new Bridge(), "Android");
         web.setWebViewClient(new WebViewClient() {
             @Override
@@ -74,7 +80,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                 Uri u = req.getUrl();
-                if ("file".equals(u.getScheme())) return false;
+                if ("file".equals(u.getScheme())) return !String.valueOf(u.getPath()).startsWith("/android_asset/");
                 try { startActivity(new Intent(Intent.ACTION_VIEW, u)); } catch (Exception ignored) {}
                 return true;
             }
@@ -109,7 +115,7 @@ public class MainActivity extends Activity {
                 if (assets != null) {
                     for (int i = 0; i < assets.length(); i++) {
                         JSONObject a = assets.getJSONObject(i);
-                        if (a.optString("name").endsWith(".apk")) { url = a.optString("browser_download_url"); break; }
+                        String du = a.optString("browser_download_url"); if (a.optString("name").endsWith(".apk") && du.startsWith("https://github.com/dlsdml99-create/nbbang-qr/releases/download/")) { url = du; break; }
                     }
                 }
                 js("window.AppInfo&&window.AppInfo.native('1." + latest + "')");

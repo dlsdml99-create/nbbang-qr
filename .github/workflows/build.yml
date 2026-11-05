@@ -31,7 +31,10 @@ jobs:
           gradle-version: '8.7'
       - name: QR 라이브러리 받기 (버전 고정)
         run: |
-          curl -fsSL https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js -o app/src/main/assets/qrcode.js
+          # 보안: CDN에서 그냥 받지 않고 npm 공식 저장소에서 받아 무결성(sha512)을 확인한 파일만 씀
+          (cd "$RUNNER_TEMP" && npm pack qrcode-generator@1.4.4 --silent >/dev/null && tar -xzf qrcode-generator-1.4.4.tgz)
+          cp "$RUNNER_TEMP/package/qrcode.js" app/src/main/assets/qrcode.js
+          sha256sum app/src/main/assets/qrcode.js
           sed -i "s/__N__/${{ github.run_number }}/g" app/src/main/assets/index.html
       - name: APK 만들기
         env:
