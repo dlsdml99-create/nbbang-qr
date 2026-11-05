@@ -34,7 +34,8 @@ jobs:
           # 보안: CDN에서 그냥 받지 않고 npm 공식 저장소에서 받아 무결성(sha512)을 확인한 파일만 씀
           (cd "$RUNNER_TEMP" && npm pack qrcode-generator@1.4.4 --silent >/dev/null && tar -xzf qrcode-generator-1.4.4.tgz)
           cp "$RUNNER_TEMP/package/qrcode.js" app/src/main/assets/qrcode.js
-          sha256sum app/src/main/assets/qrcode.js
+          # 처음 확인한 파일과 한 글자라도 다르면 빌드를 멈춤
+          echo "18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780  app/src/main/assets/qrcode.js" | sha256sum -c -
           sed -i "s/__N__/${{ github.run_number }}/g" app/src/main/assets/index.html
       - name: APK 만들기
         env:
