@@ -56,6 +56,7 @@ a { color: inherit; }
 .get .stack { display: grid; gap: 6px; flex: 1; min-width: 0; }
 .get .stack .btn { width: 100%; }
 .small-link { font-size: 14px; color: var(--sub); }
+.web-link { display:block; margin:2px 0 6px; font-weight:700; color: var(--ink, #111); }
 .qr { flex: none; display: grid; justify-items: center; gap: 4px; font-size: 11.5px; color: var(--sub); text-align: center; width: 104px; }
 .qr .code { width: 96px; height: 96px; background: #fff; border-radius: 10px; padding: 6px; }
 .qr .code svg { width: 100%; height: 100%; display: block; }
@@ -153,6 +154,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
     <div><div class="app-name">N빵</div><p class="app-tag">더치페이 계산 · 송금 QR</p></div>
     <div class="facts"><span class="fact">v1.__N__</span><span class="fact">__MB__MB</span><span class="fact">안드로이드 7.0 이상</span><span class="fact">무료 · 광고 없음</span></div>
     <a class="btn nb" href="https://github.com/dlsdml99-create/nbbang-qr/releases/download/v__N__/nbbang-qr.apk"><svg><use href="#ic-down"/></svg>N빵 다운로드</a>
+    <a class="small-link web-link" href="app/">🍎 아이폰·PC에서는 웹으로 쓰기 →</a>
     <a class="small-link" href="#guide-h">사용 설명서 보기</a> · <a class="small-link" href="#install-h">설치하는 법</a>
     <div class="qr pc-only"><div class="code" id="qr-nb"></div>PC로 보고 있다면 폰 카메라로 찍으세요</div>
   </section>
@@ -180,7 +182,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
   <section class="detail" id="guide" aria-labelledby="guide-h">
     <h2 id="guide-h">사용 설명서</h2>
     <div class="box">
-      <h3>혼자 계산했을 때 (단독)</h3>
+      <h3>혼자 계산했을 때 (혼자 결제 탭)</h3>
       <ol class="steps">
         <li><span><b>계좌 넣기 (처음 한 번)</b> · 은행·예금주·계좌번호를 넣어요. 카카오톡 송금 링크가 있으면 그것도 넣을 수 있어요. 내 폰에만 저장돼요.</span></li>
         <li><span><b>금액 넣기</b> · 음식점·카페·쇼핑을 고르고 금액을 넣어요. 1차, 2차처럼 여러 곳이면 <b>+ 금액 추가</b>로 더해요.</span></li>
@@ -190,7 +192,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
         <li><span><b>보내기</b> · QR을 친구에게 보여주거나, <b>친구에게 공유</b>로 금액·계좌·영수증 사진을 단톡방에 한 번에 보내요. <b>계좌만 복사</b>도 돼요.</span></li>
         <li><span><b>받은 돈 체크</b> · 아래 <b>받은 돈 체크</b>에서 돈을 보낸 친구(친구 1, 친구 2…)를 눌러 표시해요. 몇 명이 보냈고 얼마 받았는지 바로 보여요.</span></li>
       </ol>
-      <h3>여러 명이 나눠 냈을 때 (다수)</h3>
+      <h3>여러 명이 나눠 냈을 때 (여럿이 결제 탭)</h3>
       <ol class="steps">
         <li><span><b>+ 사람 추가</b>로 함께한 사람을 넣고, <b>+ 결제 추가</b>로 누가 얼마를 냈는지 넣어요.</span></li>
         <li><span>자주 만나는 사람들이면 <b>지금 사람들을 모임으로 저장</b>을 눌러 두세요. 다음엔 <b>자주 모이는 사람들</b>에서 누르기만 하면 이름·계좌가 채워져요.</span></li>
@@ -209,8 +211,18 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
     <p style="background:#FFF1C9;color:#5a4300;border-radius:10px;padding:10px 12px"><b>v1.10 이하를 쓰고 있다면 한 번만 지우고 새로 설치해 주세요.</b> (v1.12부터는 그냥 위에 설치돼요) 보안을 위해 서명 키를 바꿔서, 예전 앱 위에는 설치되지 않아요. 예전 앱을 지우면 저장된 계좌·정산 내용도 지워지니 계좌번호는 다시 넣어 주세요.</p>
     <h3 style="margin:12px 0 4px;font-size:15px">v1.__N__</h3>
     <ul>
-      <li>메뉴별로 나누기 (다수): 결제마다 '나눌 사람'에서 안 먹은 사람을 빼면 그 결제는 나머지끼리만 나눠요</li>
-      <li>아직 안 보낸 사람에게 보낼 재촉 메시지를 한 번에 복사 (단독·다수 모두)</li>
+      <li>📱 아이폰에서도 써요: 위의 <b>아이폰·PC에서는 웹으로 쓰기</b> → 사파리 공유 → 홈 화면에 추가</li>
+      <li>화면 글자 다듬기: '단독/다수' 탭을 '혼자 결제/여럿이 결제'로, 올림은 '올림 단위'로</li>
+    </ul>
+    <h3 style="margin:12px 0 4px;font-size:15px">v1.21</h3>
+    <ul>
+      <li>앱이 더 빨리 열려요: 글꼴을 기다리지 않고 화면부터 보여줘요</li>
+    </ul>
+    <h3 style="margin:12px 0 4px;font-size:15px">v1.19</h3>
+    <ul>
+      <li>보안 강화: 허락된 곳 말고는 스크립트를 불러오지 못하게 하고, 업데이트 파일은 이 앱 저장소에서만 받아요</li>
+      <li>메뉴별로 나누기 (여럿이 결제): 결제마다 '나눌 사람'에서 안 먹은 사람을 빼면 그 결제는 나머지끼리만 나눠요</li>
+      <li>아직 안 보낸 사람에게 보낼 재촉 메시지를 한 번에 복사 (혼자 결제·여럿이 결제 모두)</li>
     </ul>
     <h3 style="margin:12px 0 4px;font-size:15px">v1.18</h3>
     <ul>
@@ -218,7 +230,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
     </ul>
     <h3 style="margin:12px 0 4px;font-size:15px">v1.17</h3>
     <ul>
-      <li>다수 정산에도 송금마다 계좌 복사 버튼</li>
+      <li>여럿이 결제에도 송금마다 계좌 복사 버튼</li>
     </ul>
     <h3 style="margin:12px 0 4px;font-size:15px">v1.16</h3>
     <ul>
@@ -230,7 +242,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
     <ul>
       <li>인원 수도 저장돼서 다시 열어도 그대로예요</li>
       <li>인원 칸에 0을 넣으면 1명으로 고쳐요</li>
-      <li>다수 정산에서 결제한 사람을 빼면, 그 결제를 누구에게 옮겼는지 알려줘요</li>
+      <li>여럿이 결제에서 결제한 사람을 빼면, 그 결제를 누구에게 옮겼는지 알려줘요</li>
     </ul>
     <h3 style="margin:12px 0 4px;font-size:15px">v1.13</h3>
     <ul>
@@ -270,7 +282,7 @@ footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); 
         <tr><td>서명 지문</td><td class="mono">SHA-256 66:1B:30:33:26:CE:9C:A5&#x2026;</td></tr>
       </tbody></table></div>
   </section>
-  <footer>아이폰은 지원하지 않아요 · 만든 사람 <a href="https://github.com/dlsdml99-create">dlsdml99-create</a></footer>
+  <footer>아이폰은 웹앱으로 써요 (사파리 → 공유 → 홈 화면에 추가) · 만든 사람 <a href="https://github.com/dlsdml99-create">dlsdml99-create</a></footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>

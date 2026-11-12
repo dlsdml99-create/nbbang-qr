@@ -22,6 +22,7 @@ jobs:
           N=$(gh release view --json tagName -q .tagName | tr -dc 0-9)
           MB=$(gh release view --json assets -q '.assets[] | select(.name=="nbbang-qr.apk") | .size' | awk '{printf "%.1f", $1/1048576}')
           sed -i "s/__N__/$N/g; s/__MB__/$MB/g" site/index.html
+          bash .github/webapp.sh "$N"
       - uses: actions/upload-pages-artifact@v3
         with: { path: site }
   pages:

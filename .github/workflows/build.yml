@@ -65,6 +65,8 @@ jobs:
       - name: 다운로드 페이지
         run: |
           sed -i "s/__N__/${{ github.run_number }}/g; s/__MB__/$MB/g" site/index.html
+          git checkout app/src/main/assets/index.html
+          bash .github/webapp.sh "${{ github.run_number }}"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
