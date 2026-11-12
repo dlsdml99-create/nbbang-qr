@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 폰 자동 백업(구글 드라이브·기기 이전)에 계좌 정보가 담기지 않게 끔. 앱 안 '백업 파일로 저장'을 써요 -->
     <application
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_rules"
+        android:networkSecurityConfig="@xml/network_security"
+        android:usesCleartextTraffic="false"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
         android:roundIcon="@drawable/ic_launcher"

@@ -1,16 +1,16 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' file: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: file: https:; media-src 'self' data: blob:; connect-src 'self' https: data: blob:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' file:; style-src 'self' 'unsafe-inline'; font-src 'none'; img-src 'self' data: blob:; connect-src https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
 <title>N빵</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500;600&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500;600&display=swap"></noscript>
 <script src="qrcode.js"></script>
 <style>
 /* Layout: one narrow column — inputs on top, a tear-off "receipt ticket" with the QR below */
 :root{
   --bg:#E8EEF5; --paper:#FFFFFF; --ink:#132238; --muted:#5B6B80; --line:#CBD5E1;
   --accent:#2F5BFF; --accent-ink:#FFFFFF; --hi:#FFE36E;
-  --display:"Black Han Sans","IBM Plex Sans KR",system-ui,sans-serif;
-  --body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  /* 글꼴은 폰에 있는 것만 써요 (인터넷으로 받지 않음) */
+  --display:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  --body:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  --mono:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0D1522; --paper:#172235; --ink:#E8EEF7; --muted:#93A3B8; --line:#2C3B52;
@@ -19,10 +19,11 @@
   --bg:#0D1522; --paper:#172235; --ink:#E8EEF7; --muted:#93A3B8; --line:#2C3B52;
   --accent:#6E8BFF; --accent-ink:#0D1522; --hi:#5C4E12; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+html{font-size:16px}html[data-fs="1"]{font-size:18px}html[data-fs="2"]{font-size:20px}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:.9375rem;word-break:keep-all;overflow-wrap:anywhere;line-height:1.5;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
 .wrap{max-width:440px;margin:0 auto;display:grid;gap:18px}
-h1{font-family:var(--display);font-weight:400;font-size:2.2rem;line-height:1;margin:0;letter-spacing:-.01em}
+h1{font-family:var(--display);font-weight:900;font-size:2.2rem;line-height:1;margin:0;letter-spacing:-.01em}
 h1 span{background:var(--hi);padding:0 .15em}
 .sub{color:var(--muted);margin:6px 0 0;font-size:.9rem}
 .panel{background:var(--paper);border-radius:14px;padding:18px;display:grid;gap:14px}
@@ -44,7 +45,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* ticket */
 .ticket{background:var(--paper);border-radius:14px;position:relative;overflow:hidden}
 .ticket-top{padding:20px 18px 18px;display:grid;gap:4px}
-.per{font-family:var(--display);font-size:3rem;line-height:1.05;font-variant-numeric:tabular-nums}
+.per{font-family:var(--display);font-weight:800;font-size:3rem;line-height:1.05;font-variant-numeric:tabular-nums}
 .per small{font-family:var(--body);font-size:1rem;font-weight:600;margin-left:4px}
 .note{color:var(--muted);font-size:.85rem}
 .bigwarn{grid-column:1/-1;flex-basis:100%;font-size:.8rem;font-weight:600;color:#b45309;background:#fef3c7;border-radius:8px;padding:6px 10px;margin-top:4px}
@@ -54,7 +55,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .pchips button,.gchips button{font:inherit;font-size:.85rem;font-weight:600;padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 .pchips button[aria-pressed="true"]{background:#16a34a;border-color:#16a34a;color:#fff}
 .gchips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.gchips .x{border:0;padding:4px 6px;font-size:.8rem;color:var(--muted)}
+.gchips .x{border:0;min-width:44px;min-height:40px;padding:4px 6px;font-size:.8rem;color:var(--muted)}
 .xpaid{margin-top:8px;font:inherit;font-weight:700;font-size:.9rem;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;width:100%}
 .xpaid[aria-pressed="true"]{background:#16a34a;border-color:#16a34a;color:#fff}
 .xfer.done{opacity:.6}
@@ -90,10 +91,10 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .xfers{display:grid;gap:14px}
 .xfer{background:var(--paper);border-radius:14px;padding:18px;display:grid;gap:10px;justify-items:center;text-align:center}
 .xfer-head{font-weight:600;font-size:1.05rem}
-.xfer-amt{font-family:var(--display);font-size:2.4rem;line-height:1.05}
+.xfer-amt{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1.05}
 .xfer-amt small{font-family:var(--body);font-size:1rem;font-weight:600;margin-left:3px}
 .empty-msg{color:var(--muted);text-align:center;font-size:.9rem;margin:0;padding:6px}
-.empty{color:#5B6B80;font-size:.85rem;text-align:center;padding:12px}
+.empty{color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
 .actions{display:flex;gap:8px;width:100%}
 .btn{flex:1;font:inherit;font-weight:600;padding:13px;border-radius:10px;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
 .btn.ghost{background:var(--bg);color:var(--ink)}
@@ -121,14 +122,25 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sum span{color:var(--muted);font-size:.85rem;font-weight:600}
 .sum b{font-size:1.25rem}
 @media (prefers-reduced-motion:no-preference){.per{transition:color .2s}}
+.amtwarn{grid-column:1/-1;font-size:.8rem;font-weight:600;color:#b45309;background:#fef3c7;border-radius:8px;padding:6px 10px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.fsbtn{flex:none;font:inherit;font-size:.85rem;font-weight:700;min-height:44px;padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.undo{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:1500;display:flex;align-items:center;gap:12px;max-width:calc(100% - 24px);background:var(--ink);color:var(--paper);border-radius:12px;padding:8px 8px 8px 14px;box-shadow:0 4px 16px rgba(0,0,0,.25);font-size:.9rem}
+.undo button{font:inherit;font-weight:800;min-height:44px;padding:8px 14px;border:0;border-radius:9px;background:var(--hi);color:#132238;cursor:pointer}
+.lsfail{position:fixed;top:0;left:0;right:0;z-index:1600;background:#b91c1c;color:#fff;font-size:.9rem;font-weight:700;text-align:center;padding:10px 14px}
+.wthumb{grid-column:1/-1;max-height:180px;width:auto;border-radius:8px;justify-self:start}
+.bgroups{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bgroups button{font:inherit;font-size:.85rem;font-weight:600;min-height:40px;padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.verrow{max-width:440px;margin:18px auto 0;display:flex}
 </style>
 </head><body>
 
 
 <div class="wrap">
-  <header>
-    <h1><span>N빵</span></h1>
-    <p class="sub">금액과 인원을 넣고 QR을 보여주면 끝.</p>
+  <header class="head">
+    <div><h1><span>N빵</span></h1>
+    <p class="sub">금액과 인원을 넣고 QR을 보여 주면 끝.</p></div>
+    <button type="button" class="fsbtn" id="fsBtn" aria-label="글씨 크기 바꾸기">가 글씨 보통</button>
   </header>
   <nav class="tabs" id="tabs" aria-label="정산 방식">
     <button type="button" data-tab="basic" aria-selected="true">혼자 결제</button>
@@ -145,7 +157,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
         <button type="button" class="chip-btn" id="addItem">+ 금액 추가</button>
         <label class="chip-btn scan" id="scanLabel" hidden>
           사진 추가
-          <input type="file" id="receipt" accept="image/*" capture="environment" hidden>
+          <input type="file" id="receipt" accept="image/*" hidden>
         </label>
       </div>
       <div class="scan-status" id="scanStatus" role="status"></div>
@@ -158,9 +170,10 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
         <input id="people" class="num" inputmode="numeric" value="2">
         <button type="button" id="plus" aria-label="한 명 더하기">+</button>
       </div>
+      <div class="bgroups" id="bGroups" hidden></div>
     </div>
     <div class="field">
-      <span class="label">1인당 금액 올림 단위</span>
+      <span class="label">올림 단위 (1인당 금액)</span>
       <div class="seg" id="round">
         <button type="button" data-v="1" aria-pressed="false">1원</button>
         <button type="button" data-v="10" aria-pressed="false">10원</button>
@@ -177,25 +190,25 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
       </div>
       <div class="field">
         <label class="label" for="holder">예금주</label>
-        <input id="holder" autocomplete="off" value="" placeholder="김모코">
+        <input id="holder" autocomplete="off" value="" placeholder="예: 홍길동" maxlength="20">
       </div>
     </div>
     <div class="field">
       <label class="label" for="acc">계좌번호</label>
-      <input id="acc" class="num" inputmode="numeric" autocomplete="off" value="" placeholder="3333-01-2345678">
+      <input id="acc" class="num" inputmode="tel" autocomplete="off" maxlength="30" value="" placeholder="예: 123-456-789012 (숫자와 - 만)">
     </div>
     <div class="field">
       <span class="label">QR 방식</span>
       <div class="seg" id="mode">
         <button type="button" data-v="toss" aria-pressed="true">토스 송금</button>
-        <button type="button" data-v="text" aria-pressed="false">계좌 정보 텍스트</button>
+        <button type="button" data-v="text" aria-pressed="false">계좌 정보 글</button>
         <button type="button" data-v="kakao" aria-pressed="false">카카오톡 송금</button>
       </div>
     </div>
     <div class="field" id="kakaoField" hidden>
       <label class="label" for="kakao">내 카카오톡 송금 링크</label>
-      <input id="kakao" autocomplete="off" inputmode="url" placeholder="https://qr.kakaopay.com/...">
-      <span class="note">카카오톡 → 더보기 → 송금(페이) 메뉴에서 내 송금 QR 코드를 열고, 링크를 복사해 붙여넣으세요. 한 번만 넣으면 저장돼요.</span>
+      <input id="kakao" maxlength="300" autocomplete="off" inputmode="url" placeholder="https://qr.kakaopay.com/...">
+      <span class="note">카카오톡 → 더보기 → 송금(페이) 메뉴에서 내 송금 QR 코드를 열고, 링크를 복사해 붙여 넣으세요. 한 번만 넣으면 저장돼요.</span>
     </div>
     <p class="ex" id="exNote" hidden></p>
   </section>
@@ -224,7 +237,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
     <div class="row"><span class="label" style="margin:0">받은 돈 체크</span><b id="paidCount" class="num"></b></div>
     <div class="pchips" id="paidChips"></div>
     <button type="button" class="xpaid" id="nudge" hidden>🔔 아직 안 보낸 사람에게 보낼 메시지 복사</button>
-    <p class="note" style="margin:0">돈을 보낸 친구를 눌러 표시해요. 금액이나 인원이 바뀌면 새로 시작해요.</p>
+    <p class="note" style="margin:0">돈을 보낸 친구를 누르면 받았어요로 표시돼요. 금액이나 인원이 바뀌면 새로 시작해요.</p>
   </section>
   </div>
 
@@ -254,7 +267,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
         <div class="note" id="mPer"></div>
       </div>
       <div class="field">
-        <span class="label">송금액 올림 단위</span>
+        <span class="label">올림 단위 (보낼 돈)</span>
         <div class="seg" id="mRound">
           <button type="button" data-v="1" aria-pressed="false">1원</button>
           <button type="button" data-v="10" aria-pressed="false">10원</button>
@@ -265,7 +278,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
         <span class="label">QR 방식</span>
         <div class="seg" id="mMode">
           <button type="button" data-v="toss" aria-pressed="true">토스 송금</button>
-          <button type="button" data-v="text" aria-pressed="false">계좌 정보 텍스트</button>
+          <button type="button" data-v="text" aria-pressed="false">계좌 정보 글</button>
           <button type="button" data-v="kakao" aria-pressed="false">카카오톡 송금</button>
         </div>
       </div>
@@ -285,19 +298,66 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 // 토스 송금 링크에 쓰는 은행 이름
 const BANKS=["카카오뱅크","토스뱅크","KB국민","신한","우리","하나","NH농협","IBK기업","SC제일","케이뱅크","우체국","새마을","신협","수협","부산","대구","경남","광주","전북","제주","씨티"];
 const $=id=>document.getElementById(id);
+/* 저장: 실패하면(저장 공간 부족 등) 조용히 버리지 않고 화면 위에 알려 준다 */
+function lsSet(k,v){try{localStorage.setItem(k,v);const b=$("lsFail");if(b)b.remove();return true}catch(e){
+  if(!$("lsFail")){const b=document.createElement("div");b.id="lsFail";b.className="lsfail";b.setAttribute("role","alert");b.textContent="저장 공간이 부족해서 저장하지 못했어요. 폰의 저장 공간을 비운 뒤 다시 해 주세요.";document.body.appendChild(b)}return false}}
+/* 실수로 지운 것 되돌리기: 아래에 잠깐 '되돌리기' 버튼을 보여 준다 */
+let undoSlot=null;
+function showUndo(msg,onUndo,onCommit){
+  if(undoSlot){clearTimeout(undoSlot.t);undoSlot.el.remove();if(undoSlot.commit)undoSlot.commit()}
+  const bar=document.createElement("div");bar.className="undo";bar.setAttribute("role","status");
+  const t=document.createElement("span");t.textContent=msg;const b=document.createElement("button");b.type="button";b.textContent="되돌리기";
+  bar.append(t,b);document.body.appendChild(bar);
+  const slot={el:bar,commit:onCommit};slot.t=setTimeout(()=>{bar.remove();if(undoSlot===slot)undoSlot=null;if(onCommit)onCommit()},6000);
+  b.onclick=()=>{clearTimeout(slot.t);bar.remove();if(undoSlot===slot)undoSlot=null;onUndo()};
+  undoSlot=slot;
+}
+/* 계좌번호: 숫자와 - 만 */
+const cleanAcc=v=>String(v||"").replace(/[^0-9-]/g,"").slice(0,30);
+/* 토스 송금 주소 (QR과 공유 문구에 같이 씀) */
+const tossUrl=(bank,acc,amount)=>`supertoss://send?amount=${amount}&bank=${encodeURIComponent(bank)}&accountNo=${String(acc).replace(/[^0-9]/g,"")}&origin=qr`;
+/* 글씨 크기: 보통 · 크게 · 아주 크게 */
+const FS_NAMES=["보통","크게","아주 크게"];let fsLevel=0;
+try{const f=+localStorage.getItem("nbbang-fs");if(f>=0&&f<=2)fsLevel=f}catch(e){}
+function applyFs(){if(fsLevel)document.documentElement.setAttribute("data-fs",String(fsLevel));else document.documentElement.removeAttribute("data-fs");$("fsBtn").textContent="가 글씨 "+FS_NAMES[fsLevel]}
+applyFs();$("fsBtn").onclick=()=>{fsLevel=(fsLevel+1)%3;applyFs();lsSet("nbbang-fs",String(fsLevel))};
+/* 사진(웹): 이 화면에만 잠깐 두고 공유할 때 같이 보냄 */
+window.WEB_PHOTOS={};
 const bankSel=$("bank");
 BANKS.forEach(b=>{const o=document.createElement("option");o.value=b;o.textContent=b;bankSel.appendChild(o)});
 let round=100, mode="toss";
 
 // 저장된 내 계좌 불러오기
 try{const s=JSON.parse(localStorage.getItem("nbbang")||"null");
-  if(s){if(s.bank)bankSel.value=s.bank; if(s.acc&&s.acc!=="3333-01-2345678")$("acc").value=s.acc; if(s.holder&&s.holder!=="김모코")$("holder").value=s.holder;
+  if(s){if(s.bank)bankSel.value=s.bank; if(s.acc&&s.acc!=="3333-01-2345678")$("acc").value=cleanAcc(s.acc); if(s.holder&&s.holder!=="김모코")$("holder").value=s.holder;
     if([1,10,100].includes(s.round))round=s.round; if(s.mode)mode=s.mode; if(s.kakao)$("kakao").value=s.kakao; if(s.people>=1&&s.people<=999)$("people").value=s.people; $("exNote").hidden=true;}}catch(e){}
 
 const digits=v=>String(v).replace(/[^0-9]/g,"");
 /* 금액은 최대 99억 9,999만 원까지. 300만 원이 넘으면 "0이 더 붙었나요?" 하고 한 번 물어본다 */
 const MAX_AMT=9999999999, BIG_AMT=3000000;
 const capDigits=v=>{const d=digits(v).replace(/^0+(?=\d)/,"");return d.length>10?d.slice(0,10):d};
+/* 금액 읽기: 숫자만. 12000+8500, 50000-5000 처럼 더하고 빼기도 됨. 음수·소수점·너무 큰 금액은 알려 준다 */
+function parseAmt(raw){
+  let t=String(raw==null?"":raw).replace(/[,\s원]/g,"").replace(/[−–]/g,"-");
+  if(!t)return {v:0,msg:"",keep:false};
+  let msg="";
+  if(/[^0-9.+\-]/.test(t)){t=t.replace(/[^0-9.+\-]/g,"");msg="숫자만 넣을 수 있어요. 다른 글자는 뺐어요."}
+  const keep=/[.+\-]/.test(t);
+  const terms=t.match(/[+\-]?[^+\-]*/g).filter(x=>x&&x!=="+"&&x!=="-");
+  let v=0,dec=false,big=false;
+  terms.forEach(x=>{const neg=x[0]==="-";let n=x.replace(/^[+\-]/,"");if(n.includes(".")){dec=true;n=n.split(".")[0]}
+    n=n.replace(/[^0-9]/g,"").replace(/^0+(?=\d)/,"");if(n.length>10){big=true;n=n.slice(0,10)}v+=(neg?-1:1)*(+n||0)});
+  if(dec)msg="원 단위로 넣어 주세요. 소수점 뒤는 뺐어요.";
+  if(v<0){v=0;msg=terms.length<=1?"빼기(-) 금액만 넣을 수는 없어요. 할인은 '50000-5000'처럼 원래 금액 뒤에 빼 주세요.":"빼고 나면 0원보다 작아요. 금액을 다시 확인해 주세요."}
+  if(v>MAX_AMT||big){v=Math.min(v,MAX_AMT);msg="금액은 99억 9,999만 원까지 넣을 수 있어요."}
+  return {v,msg,keep};
+}
+function amtNote(li,msg){let w=li.querySelector(".amtwarn");if(msg){if(!w){w=document.createElement("div");w.className="amtwarn";w.setAttribute("role","status");li.appendChild(w)}w.textContent=msg}else if(w)w.remove()}
+/* 금액 칸 하나에 붙이기: 입력하는 동안은 계산식 그대로 두고, 칸을 벗어나면 숫자로 정리 */
+function bindAmt(a,li,get,set,after){
+  a.oninput=()=>{const r=parseAmt(a.value);set(r.v);if(!r.keep){const f=r.v?fmt(r.v):"";if(a.value!==f)a.value=f}amtNote(li,r.msg);bigWarn(li,r.v);after()};
+  a.onchange=()=>{const r=parseAmt(a.value);set(r.v);a.value=r.v?fmt(r.v):"";if(r.msg)amtNote(li,r.msg);bigWarn(li,r.v);after()};
+}
 function bigWarn(li,amount){let w=li.querySelector(".bigwarn");
   if(amount>=BIG_AMT){if(!w){w=document.createElement("div");w.className="bigwarn";w.setAttribute("role","status");li.appendChild(w)}
     w.textContent=`${fmtKo(amount)}이 맞나요? 혹시 0이 더 붙었다면 고쳐 주세요.`}
@@ -319,16 +379,25 @@ let uid=0;items.forEach(i=>i.id=++uid);
 function drawItems(focusId){
   const ul=$("items");ul.innerHTML="";
   items.forEach((it,idx)=>{
-    const ex=idx===0?["음식점","100,000"]:["",""]; // 예시는 첫 줄에만
+    const ex=idx===0?["예: 음식점","예: 100,000"]:["",""]; // 예시는 첫 줄에만
     const li=document.createElement("li");li.className="item";
     const n=document.createElement("input");n.id="name-"+it.id;n.placeholder=ex[0];n.value=it.name||"";n.autocomplete="off";n.setAttribute("aria-label","항목 이름");
     const a=document.createElement("input");a.id="amt-"+it.id;a.className="num amt";a.inputMode="numeric";a.placeholder=ex[1];a.autocomplete="off";a.value=it.amount?fmt(it.amount):"";a.setAttribute("aria-label","금액(원)");
     const d=document.createElement("button");d.type="button";d.className="del";d.textContent="×";d.setAttribute("aria-label","이 금액 지우기");
     n.oninput=()=>{it.name=n.value;render()};
-    a.oninput=()=>{const v=capDigits(a.value);it.amount=+v||0;a.value=v?fmt(+v):"";bigWarn(li,it.amount);render()};
-    d.onclick=()=>{if(it.receipt&&window.Android&&Android.deleteReceipt&&!items.some(x=>x!==it&&x.receipt===it.receipt)&&!(window.mReceipts&&mReceipts().includes(it.receipt))){try{Android.deleteReceipt(it.receipt)}catch(e){}}items=items.filter(x=>x!==it);if(!items.length)items.push({id:++uid,name:"",amount:0});drawItems();render()};
+    bindAmt(a,li,()=>it.amount,v=>{it.amount=v},render);
+    d.onclick=()=>{
+      const snap=items.slice(),label=((it.name||"").trim()||"금액")+(it.amount?" "+fmt(it.amount)+"원":"");
+      items=items.filter(x=>x!==it);if(!items.length)items.push({id:++uid,name:"",amount:0});drawItems();render();
+      if(!it.amount&&!(it.name||"").trim()&&!it.receipt&&!it.wphoto)return;
+      showUndo(`'${label}' 줄을 지웠어요`,()=>{items=snap;drawItems();render()},()=>{
+        if(items.includes(it))return;
+        if(it.wphoto&&!items.some(x=>x.wphoto===it.wphoto)){try{URL.revokeObjectURL(it.wphoto)}catch(e){}delete WEB_PHOTOS[it.wphoto]}
+        if(it.receipt&&window.Android&&Android.deleteReceipt&&!items.some(x=>x.receipt===it.receipt)&&!(window.mReceipts&&mReceipts().includes(it.receipt))){try{Android.deleteReceipt(it.receipt)}catch(e){}}})};
+    n.maxLength=30;
     li.append(n,a,d);bigWarn(li,it.amount);
-    if(it.receipt){const rc=document.createElement("div");rc.className="rcpt";rc.textContent="사진 첨부됨 · 공유할 때 같이 보내져요";li.appendChild(rc)}
+    if(it.wphoto){const im=document.createElement("img");im.className="wthumb";im.src=it.wphoto;im.alt="붙인 영수증 사진";li.appendChild(im)}
+    if(it.receipt||it.wphoto){const rc=document.createElement("div");rc.className="rcpt";rc.textContent=it.receipt?"사진 첨부됨 · 공유할 때 같이 보내져요":"사진 첨부됨 · 공유할 때 같이 보내요 (앱을 닫으면 사진은 사라져요)";li.appendChild(rc)}
     ul.appendChild(li);
   });
   if(focusId){const el=$("amt-"+focusId);if(el)el.focus()}
@@ -340,7 +409,7 @@ PRESETS.forEach(p=>{
   b.onclick=()=>{
     const same=items.filter(i=>(i.name||"").replace(/\s\d+차$/,"")===p).length;
     const name=same?`${p} ${same+1}차`:p;
-    let it=items.find(i=>!i.amount&&!(i.name||"").trim()&&!i.receipt);
+    let it=items.find(i=>!i.amount&&!(i.name||"").trim()&&!i.receipt&&!i.wphoto);
     if(it)it.name=name;else{it={id:++uid,name,amount:0};items.push(it)}
     drawItems(it.id);render();
   };
@@ -352,7 +421,7 @@ let activeTab="basic";
 window.scanSt={set textContent(v){$("scanStatus").textContent=v;const m=document.getElementById("mScanStatus");if(m)m.textContent=v}};
 function addScanned(name,amount,receipt){
   if(activeTab==="multi"&&window.mAddEntry)return mAddEntry(name,amount,receipt);
-  const blank=items.find(i=>!i.amount&&!(i.name||"").trim()&&!i.receipt);
+  const blank=items.find(i=>!i.amount&&!(i.name||"").trim()&&!i.receipt&&!i.wphoto);
   const it=blank||{id:++uid};it.name=name;it.amount=amount;if(receipt)it.receipt=receipt;
   if(!blank)items.push(it);
   return it;
@@ -367,6 +436,18 @@ function compute(){
 }
 
 /* 받은 돈 체크 (단독): 친구 1, 친구 2 ... 를 눌러 표시. 금액·인원이 바뀌면 처음부터 */
+/* 자주 모이는 사람들(여럿이 결제 탭에서 저장한 모임)을 눌러 인원 수와 이름을 채움 */
+let bNames=[];try{const n=JSON.parse(localStorage.getItem("nbbang-names")||"[]");if(Array.isArray(n))bNames=n.map(String).slice(0,50)}catch(e){}
+function drawBGroups(){
+  const box=$("bGroups");box.innerHTML="";let gs=[];
+  try{gs=JSON.parse(localStorage.getItem("nbbang-groups")||"[]");if(!Array.isArray(gs))gs=[]}catch(e){}
+  gs=gs.filter(g=>g&&Array.isArray(g.people)&&g.people.length>=2);box.hidden=!gs.length;if(!gs.length)return;
+  const l=document.createElement("span");l.className="note";l.textContent="모임 불러오기:";box.appendChild(l);
+  gs.forEach(g=>{const b=document.createElement("button");b.type="button";b.textContent=`${g.name} (${g.people.length}명)`;
+    b.onclick=()=>{$("people").value=g.people.length;bNames=g.people.slice(1).map(p=>String(p.name||""));lsSet("nbbang-names",JSON.stringify(bNames));render();
+      $("toast").textContent=`'${g.name}' ${g.people.length}명으로 맞췄어요`;setTimeout(()=>$("toast").textContent="",2500)};box.appendChild(b)});
+}
+window.drawBGroups=drawBGroups;
 function drawPaid(total,people,per){
   const box=$("paidBox");if(!box)return;
   const others=people-1;box.hidden=!(total>0&&others>=1&&others<=50);if(box.hidden)return;
@@ -374,12 +455,13 @@ function drawPaid(total,people,per){
   try{const o=JSON.parse(localStorage.getItem("nbbang-paid")||"null");if(o&&o.k===key)st=o}catch(e){}
   const chips=$("paidChips");chips.innerHTML="";
   for(let i=1;i<=others;i++){const b=document.createElement("button");b.type="button";const on=st.on.includes(i);
-    b.textContent=(on?"✓ ":"")+"친구 "+i;b.setAttribute("aria-pressed",String(on));
-    b.onclick=()=>{st.on=on?st.on.filter(x=>x!==i):st.on.concat(i);try{localStorage.setItem("nbbang-paid",JSON.stringify(st))}catch(e){}drawPaid(total,people,per)};chips.appendChild(b)}
+    const nm=(bNames[i-1]||"").trim()||"친구 "+i;
+    b.textContent=(on?"✓ ":"")+nm;b.setAttribute("aria-pressed",String(on));b.setAttribute("aria-label",nm+(on?" 받았어요":" 아직 안 받음"));
+    b.onclick=()=>{st.on=on?st.on.filter(x=>x!==i):st.on.concat(i);lsSet("nbbang-paid",JSON.stringify(st));drawPaid(total,people,per)};chips.appendChild(b)}
   const n=st.on.length,ng=$("nudge");
   if(ng){ng.hidden=n>=others;ng.onclick=()=>{const r=render(),L=[`[N빵] 아직 ${others-n}명 남았어요 🙏`,`1인당 ${fmt(per)}원`];
-    if(mode==="kakao"&&r.kakaoOk)L.push("카카오톡 송금: "+r.kakao);else if(r.acc)L.push(`보낼 곳: ${r.bank} ${$("acc").value.trim()}${r.holder?" ("+r.holder+")":""}`);
-    copy(L.join("\n"),"메시지를 복사했어요. 카톡 단톡방에 붙여넣으세요")}}
+    if(mode==="kakao"&&r.kakaoOk)L.push("카카오톡 송금: "+r.kakao);else if(r.acc){L.push(`보낼 곳: ${r.bank} ${$("acc").value.trim()}${r.holder?" ("+r.holder+")":""}`);L.push("토스로 보내기: "+tossUrl(r.bank,r.acc,per))}
+    copy(L.join("\n"),"메시지를 복사했어요. 카톡 단톡방에 붙여 넣으세요")}}
   $("paidCount").textContent=n>=others?`다 받았어요 🎉 ${fmt(per*others)}원`:`${n}/${others}명 · ${fmt(per*n)}원 받음`;
 }
 function render(){
@@ -387,19 +469,19 @@ function render(){
   const bank=bankSel.value, acc=digits($("acc").value), holder=$("holder").value.trim();
   $("per").innerHTML=fmt(per)+"<small>원</small>";
   $("sum").textContent=fmt(total)+"원";
-  try{localStorage.setItem("nbbang-items",JSON.stringify(items.map(({name,amount,receipt})=>({name,amount,receipt}))))}catch(e){}
+  lsSet("nbbang-items",JSON.stringify(items.map(({name,amount,receipt})=>({name,amount,receipt}))));
   const others=people-1;
   const collected=per*others;
   drawPaid(total,people,per);
-  $("calc").textContent = people<2 ? "인원을 2명 이상으로 해주세요." :
+  $("calc").textContent = people<2 ? "인원을 2명 이상으로 해 주세요." :
     `${fmt(total)}원 ÷ ${people}명 · 다른 ${others}명에게 받으면 ${fmt(collected)}원\n(내 몫 ${fmt(Math.max(0,total-collected))}원)`;
   const kakao=$("kakao").value.trim(), kakaoOk=/^https:\/\/([a-z0-9-]+\.)*kakaopay\.com\/\S+$/i.test(kakao);
   $("kakaoField").hidden = mode!=="kakao";
   if(mode==="kakao"){
     $("acctLine").textContent = kakaoOk ? "카카오톡 송금으로 받기" : "카카오톡 송금 링크를 넣어 주세요";
-    $("holderLine").textContent = kakaoOk ? `금액 칸에 ${fmt(per)}원을 입력해 보내주세요` : (kakao?"송금 링크가 아니에요. https://qr.kakaopay.com/ 으로 시작해요.":"");
+    $("holderLine").textContent = kakaoOk ? `금액 칸에 ${fmt(per)}원을 입력해 보내 주세요` : (kakao?"송금 링크가 아니에요. https://qr.kakaopay.com/ 으로 시작해요.":"");
   }else{
-  $("acctLine").textContent = acc ? `${bank} ${$("acc").value.trim()}` : "계좌번호를 입력해 주세요";
+  $("acctLine").textContent = acc ? `${bank} ${$("acc").value.trim()}` : "계좌번호를 넣어 주세요";
   $("holderLine").textContent = holder ? `예금주 ${holder}` : "";
   }
 
@@ -407,11 +489,11 @@ function render(){
   if(mode==="kakao"){ if(kakaoOk) data=kakao; }
   else if(acc){
     data = mode==="toss"
-      ? `supertoss://send?amount=${per}&bank=${encodeURIComponent(bank)}&accountNo=${acc}&origin=qr`
+      ? tossUrl(bank,acc,per)
       : `${bank} ${acc}${holder?" "+holder:""}\n1인당 ${fmt(per)}원`;
   }
   const box=$("qr");
-  if(!data||typeof qrcode==="undefined"){box.innerHTML=`<div class="empty">${typeof qrcode==="undefined"?"QR을 불러오지 못했어요. 새로고침 해주세요.":(mode==="kakao"?"카카오톡 송금 링크를 넣으면 QR이 생겨요":"계좌번호를 넣으면 QR이 생겨요")}</div>`}
+  if(!data||typeof qrcode==="undefined"){box.innerHTML=`<div class="empty">${typeof qrcode==="undefined"?"QR을 불러오지 못했어요. 앱을 다시 열어 주세요.":(mode==="kakao"?"카카오톡 송금 링크를 넣으면 QR이 생겨요":"계좌번호를 넣으면 QR이 생겨요")}</div>`}
   else{
     if(qrcode.stringToBytesFuncs&&qrcode.stringToBytesFuncs["UTF-8"])qrcode.stringToBytes=qrcode.stringToBytesFuncs["UTF-8"];
     const q=qrcode(0,"M");q.addData(data);q.make();
@@ -420,14 +502,15 @@ function render(){
   $("help").innerHTML = mode==="kakao"
     ? "<b>카카오톡 송금</b>: 친구가 카메라로 찍으면 카카오톡 송금 화면이 열리고, 친구 추가 없이 나에게 바로 보낼 수 있어요. 금액은 자동으로 안 채워지니 위의 1인당 금액을 알려 주세요."
     : mode==="toss"
-    ? "<b>토스 송금</b>: 친구가 휴대폰 카메라로 찍으면 토스 앱이 열리고 은행·계좌·금액이 채워져요. 토스가 없는 친구는 <b>계좌 정보 텍스트</b>로 바꾸거나 ‘친구에게 공유’로 보내주세요."
-    : "<b>계좌 정보 텍스트</b>: 카메라로 찍으면 계좌와 금액이 글자로 떠요. 길게 눌러 복사한 뒤 아무 은행 앱에 붙여넣으면 돼요.";
-  try{localStorage.setItem("nbbang",JSON.stringify({bank,acc:$("acc").value,holder,round,mode,kakao,people:Math.max(1,+digits($("people").value)||1)}))}catch(e){}
+    ? "<b>토스 송금</b>: 친구가 휴대폰 카메라로 찍으면 토스 앱이 열리고 은행·계좌·금액이 채워져요. 토스가 없는 친구는 <b>계좌 정보 글</b>로 바꾸거나 ‘친구에게 공유’로 보내 주세요."
+    : "<b>계좌 정보 글</b>: 카메라로 찍으면 계좌와 금액이 글자로 떠요. 길게 눌러 복사한 뒤 아무 은행 앱에 붙여 넣으면 돼요.";
+  lsSet("nbbang",JSON.stringify({bank,acc:$("acc").value,holder,round,mode,kakao,people:Math.max(1,+digits($("people").value)||1)}));
   return {bank,acc,holder,per,kakao,kakaoOk};
 }
 
 // 영수증 읽기는 앱(폰 안 글자 인식)에서만 해요. AI 서비스는 쓰지 않아요.
 const sampleFn=null;
+$("acc").addEventListener("input",()=>{const a=$("acc"),c=cleanAcc(a.value);if(a.value!==c){a.value=c;$("toast").textContent="계좌번호는 숫자와 - 만 넣을 수 있어요";setTimeout(()=>$("toast").textContent="",2500)}});
 ["people","acc","holder","kakao"].forEach(id=>$(id).addEventListener("input",()=>{$("exNote").hidden=true;render()}));
 bankSel.addEventListener("change",()=>{$("exNote").hidden=true;render()});
 /* 인원은 1명 이상: 0이나 빈칸으로 두고 나가면 1로 고친다 */
@@ -446,23 +529,33 @@ function copy(text,msg){
 function summary(r){
   const {total,people,per}=compute();
   const L=["[N빵 정산]"];
-  items.filter(i=>(+i.amount||0)>0).forEach(i=>L.push(`· ${(i.name||"").trim()||"항목"} ${fmt(+i.amount)}원${i.receipt?" (사진 첨부)":""}`));
+  items.filter(i=>(+i.amount||0)>0).forEach(i=>L.push(`· ${(i.name||"").trim()||"항목"} ${fmt(+i.amount)}원${i.receipt||i.wphoto?" (사진 첨부)":""}`));
   L.push(`합계 ${fmt(total)}원 ÷ ${people}명`);
   L.push(`1인당 ${fmt(per)}원`);
   L.push("");
   if(mode==="kakao"&&r.kakaoOk)L.push("카카오톡 송금: "+r.kakao);
-  else if(r.acc)L.push(`보낼 곳: ${r.bank} ${$("acc").value.trim()}${r.holder?" ("+r.holder+")":""}`);
+  else if(r.acc){L.push(`보낼 곳: ${r.bank} ${$("acc").value.trim()}${r.holder?" ("+r.holder+")":""}`);L.push("토스로 보내기: "+tossUrl(r.bank,r.acc,per))}
   return L.join("\n").trim();
 }
 $("copy").onclick=()=>{
   const r=render(), text=summary(r);
   if(window.Android&&Android.share){
     const rc=[...new Set(items.filter(i=>i.receipt&&(+i.amount||0)>0).map(i=>i.receipt))];
-    try{Android.share(text,JSON.stringify(rc));$("toast").textContent=rc.length?`사진 ${rc.length}장과 함께 공유해요. 글이 빠지면 붙여넣기 하세요.`:"공유할 앱을 골라 주세요";setTimeout(()=>$("toast").textContent="",3500);return}catch(e){}
+    try{Android.share(text,JSON.stringify(rc));$("toast").textContent=rc.length?`사진 ${rc.length}장과 함께 공유해요. 글이 빠지면 붙여 넣기 해 주세요.`:"공유할 앱을 골라 주세요";setTimeout(()=>$("toast").textContent="",3500);return}catch(e){}
   }
-  copy(text,"정산 내용을 복사했어요. 카톡에 붙여넣으세요");
+  const files=[...new Set(items.filter(i=>i.wphoto&&(+i.amount||0)>0).map(i=>i.wphoto))].map(u=>WEB_PHOTOS[u]).filter(Boolean);
+  if(webShare(text,files))return;
+  copy(text,"정산 내용을 복사했어요. 카톡에 붙여 넣으세요");
 };
-$("copyAcc").onclick=()=>{const r=render();copy(`${r.bank} ${r.acc}`,"계좌번호를 복사했어요")};
+/* 웹(아이폰)에서 사진과 글을 같이 공유: 지원하면 공유 창, 아니면 글만 복사 */
+function webShare(text,files){
+  if(!files.length||!navigator.share||!navigator.canShare)return false;
+  try{if(!navigator.canShare({files}))return false}catch(e){return false}
+  navigator.share({text,files}).catch(()=>{});return true;
+}
+window.webShare=webShare;
+$("copyAcc").onclick=()=>{const r=render();if(!r.acc){$("toast").textContent="계좌번호를 먼저 넣어 주세요";setTimeout(()=>$("toast").textContent="",2500);return}copy(`${r.bank} ${r.acc}`,"계좌번호를 복사했어요")};
+drawBGroups();
 drawItems();
 render();
 </script>
@@ -477,7 +570,7 @@ render();
   try{
     const s=JSON.parse(localStorage.getItem(M_KEY)||"null");
     if(s&&Array.isArray(s.people)&&s.people.length){
-      S.people=s.people.map(p=>({id:++mid,name:p.name||"",bank:BANKS.includes(p.bank)?p.bank:BANKS[0],acc:p.acc||"",kakao:p.kakao||"",_old:p.id}));
+      S.people=s.people.map(p=>({id:++mid,name:p.name||"",bank:BANKS.includes(p.bank)?p.bank:BANKS[0],acc:cleanAcc(p.acc),kakao:p.kakao||"",_old:p.id}));
       const map={};S.people.forEach(p=>map[p._old]=p.id);S.people.forEach(p=>delete p._old);
       S.pays=(s.pays||[]).map(x=>({id:++mid,name:x.name||"",amount:+x.amount||0,payer:map[x.payer]||S.people[0].id,receipt:x.receipt,ex:Array.isArray(x.ex)?x.ex.map(o=>map[o]).filter(Boolean):[]}));
       if([1,10,100].includes(s.round))S.round=s.round;
@@ -489,7 +582,7 @@ render();
   /* 자주 모이는 사람들: 이름·계좌를 모임으로 저장해 두고 한 번에 불러온다 (최대 10개, 이 폰에만 저장) */
   const G_KEY="nbbang-groups";
   const loadGroups=()=>{try{const g=JSON.parse(localStorage.getItem(G_KEY)||"[]");return Array.isArray(g)?g:[]}catch(e){return[]}};
-  const saveGroups=g=>{try{localStorage.setItem(G_KEY,JSON.stringify(g.slice(0,10)))}catch(e){}};
+  const saveGroups=g=>{lsSet(G_KEY,JSON.stringify(g.slice(0,10)));if(window.drawBGroups)drawBGroups()};
   function drawGroups(){
     const box=$("mGroups");if(!box)return;box.innerHTML="";const gs=loadGroups();
     if(!gs.length){box.appendChild(el("span","note","모임을 저장해 두면 다음에 누르기만 하면 사람들이 채워져요."));return}
@@ -497,7 +590,8 @@ render();
       b.onclick=()=>{S.people=g.people.map(p=>({id:++mid,name:p.name||"",bank:BANKS.includes(p.bank)?p.bank:BANKS[0],acc:p.acc||"",kakao:p.kakao||""}));
         S.pays.forEach(y=>{if(!S.people.some(p=>p.id===y.payer))y.payer=S.people[0].id});drawPeople();drawPays();update();mToast(`'${g.name}' ${S.people.length}명을 불러왔어요.`)};
       const x=el("button","x","×");x.type="button";x.setAttribute("aria-label",g.name+" 모임 지우기");
-      x.onclick=()=>{const all=loadGroups();all.splice(gi,1);saveGroups(all);drawGroups()};
+      x.onclick=()=>{const all=loadGroups(),snap=all.slice();all.splice(gi,1);saveGroups(all);drawGroups();
+        showUndo(`'${g.name}' 모임을 지웠어요`,()=>{saveGroups(snap);drawGroups()})};
       box.append(b,x)});
   }
   function saveGroup(){
@@ -510,9 +604,12 @@ render();
   /* 송금 완료 체크 (다수): 보낸 사람→받는 사람·금액마다 '받았어요' 표시 */
   const P_KEY="nbbang-mpaid";
   const loadPaid=()=>{try{return new Set(JSON.parse(localStorage.getItem(P_KEY)||"[]"))}catch(e){return new Set()}};
-  const savePaid=s=>{try{localStorage.setItem(P_KEY,JSON.stringify([...s].slice(-200)))}catch(e){}};
-  const save=()=>{try{localStorage.setItem(M_KEY,JSON.stringify({people:S.people,pays:S.pays.map(({name,amount,payer,receipt,ex})=>({name,amount,payer,receipt,ex:ex&&ex.length?ex:undefined})),round:S.round,mode:S.mode}))}catch(e){}};
-  const pname=(p,i)=>(p.name||"").trim()||(i===0?"나":`참여자 ${i+1}`);
+  const savePaid=s=>{lsSet(P_KEY,JSON.stringify([...s].slice(-200)))};
+  const save=()=>{lsSet(M_KEY,JSON.stringify({people:S.people,pays:S.pays.map(({name,amount,payer,receipt,ex})=>({name,amount,payer,receipt,ex:ex&&ex.length?ex:undefined})),round:S.round,mode:S.mode}))};
+  /* 되돌리기용: 지금 사람·결제 상태를 통째로 복사 (웹 사진 주소는 그대로) */
+  const snapS=()=>({people:S.people.map(p=>Object.assign({},p)),pays:S.pays.map(y=>Object.assign({},y,{ex:y.ex?y.ex.slice():y.ex}))});
+  const restoreS=o=>{S.people=o.people;S.pays=o.pays;drawPeople();drawPays();update()};
+  const pname=(p,i)=>(p.name||"").trim()||(i===0?"나":`친구 ${i}`);
   const nameOf=id=>{const i=S.people.findIndex(p=>p.id===id);return i<0?"?":pname(S.people[i],i)};
   const el=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
 
@@ -522,31 +619,33 @@ render();
     S.people.forEach((p,i)=>{
       const c=el("div","pcard");
       const n=el("input");n.id="mp-name-"+p.id;n.value=p.name;n.autocomplete="off";n.setAttribute("aria-label","이름");
-      if(i===0)n.placeholder="나"; else if(i===1)n.placeholder="친구";
+      n.placeholder=i===0?"나":`친구 ${i}`;n.maxLength=20;
       n.oninput=()=>{p.name=n.value;refreshPayerOptions();update()};
       const x=el("button","del","×");x.type="button";x.setAttribute("aria-label","이 사람 빼기");
       x.onclick=()=>{
         if(S.people.length<=2){mToast("최소 2명이 필요해요.");return}
+        const snap=snapS(),who0=(p.name||"").trim()||"이 사람";
         S.people=S.people.filter(q=>q!==p);
         /* 뺀 사람이 낸 결제는 맨 앞 사람에게 옮기고, 조용히 바꾸지 않고 알려 준다 */
         const moved=S.pays.filter(y=>y.payer===p.id&&y.amount>0).length;
         S.pays.forEach(y=>{if(y.payer===p.id)y.payer=S.people[0].id;if(y.ex)y.ex=y.ex.filter(id=>id!==p.id)});
         drawPeople();drawPays();update();
-        if(moved){const who=(p.name||"").trim()||"뺀 사람",to=(S.people[0].name||"").trim()||"첫 번째 사람";mToast(`${who}이(가) 낸 결제 ${moved}건을 ${to}에게 옮겼어요. '결제한 사람'을 확인해 주세요.`)}
+        if(moved){const to=(S.people[0].name||"").trim()||"첫 번째 사람";mToast(`${who0} 결제 ${moved}건을 ${to}에게 옮겼어요. '결제한 사람'을 확인해 주세요.`)}
+        showUndo(`사람 한 명을 뺐어요 (${who0})`,()=>restoreS(snap));
       };
       const r2=el("div","row2");
       const b=el("select");b.id="mp-bank-"+p.id;b.setAttribute("aria-label","은행");
       BANKS.forEach(k=>{const o=el("option",null,k);o.value=k;b.appendChild(o)});b.value=p.bank;
       b.onchange=()=>{p.bank=b.value;update()};
       const a=el("input","num");a.id="mp-acc-"+p.id;a.inputMode="numeric";a.autocomplete="off";a.value=p.acc;a.setAttribute("aria-label","계좌번호");
-      a.placeholder="계좌번호";
-      a.oninput=()=>{p.acc=a.value;update()};
+      a.placeholder="계좌번호 (숫자와 -)";a.maxLength=30;a.inputMode="tel";
+      a.oninput=()=>{const c=cleanAcc(a.value);if(c!==a.value){a.value=c;mToast("계좌번호는 숫자와 - 만 넣을 수 있어요")}p.acc=c;update()};
       r2.append(b,a);
       c.append(n,x,r2);
       if(S.mode==="kakao"){
         const k=el("input","full");k.id="mp-kakao-"+p.id;k.autocomplete="off";k.inputMode="url";k.value=p.kakao;
         k.placeholder="카카오톡 송금 링크";k.setAttribute("aria-label","카카오톡 송금 링크");
-        k.oninput=()=>{p.kakao=k.value.trim();update()};
+        k.maxLength=300;k.oninput=()=>{p.kakao=k.value.trim();update()};
         c.appendChild(k);
       }
       box.appendChild(c);
@@ -576,16 +675,21 @@ render();
       const li=el("li","item");
       const n=el("input");n.id="mpay-name-"+y.id;n.autocomplete="off";n.value=y.name||"";n.setAttribute("aria-label","항목 이름");
       const a=el("input","num amt");a.id="mpay-amt-"+y.id;a.inputMode="numeric";a.autocomplete="off";a.value=y.amount?fmt(y.amount):"";a.setAttribute("aria-label","금액(원)");
-      if(idx===0){n.placeholder="음식점";a.placeholder="100,000"}
+      if(idx===0){n.placeholder="예: 음식점";a.placeholder="예: 100,000"}
       n.oninput=()=>{y.name=n.value;update()};
-      a.oninput=()=>{const v=capDigits(a.value);y.amount=+v||0;a.value=v?fmt(+v):"";bigWarn(li,y.amount);update()};
+      n.maxLength=30;bindAmt(a,li,()=>y.amount,v=>{y.amount=v},update);
       setTimeout(()=>bigWarn(li,y.amount));
       const d=el("button","del","×");d.type="button";d.setAttribute("aria-label","이 결제 지우기");
       d.onclick=()=>{
-        if(y.receipt&&window.Android&&Android.deleteReceipt&&!S.pays.some(z=>z!==y&&z.receipt===y.receipt)&&!items.some(z=>z.receipt===y.receipt)){try{Android.deleteReceipt(y.receipt)}catch(e){}}
+        const snap=snapS(),label=((y.name||"").trim()||"결제")+(y.amount?" "+fmt(y.amount)+"원":"");
         S.pays=S.pays.filter(z=>z!==y);
         if(!S.pays.length)S.pays.push({id:++mid,name:"",amount:0,payer:S.people[0].id});
         drawPays();update();
+        if(!y.amount&&!(y.name||"").trim()&&!y.receipt&&!y.wphoto)return;
+        showUndo(`'${label}' 결제를 지웠어요`,()=>restoreS(snap),()=>{
+          if(S.pays.some(z=>z.id===y.id))return;
+          if(y.wphoto&&!S.pays.some(z=>z.wphoto===y.wphoto)&&!items.some(z=>z.wphoto===y.wphoto)){try{URL.revokeObjectURL(y.wphoto)}catch(e){}delete WEB_PHOTOS[y.wphoto]}
+          if(y.receipt&&window.Android&&Android.deleteReceipt&&!S.pays.some(z=>z.receipt===y.receipt)&&!items.some(z=>z.receipt===y.receipt)){try{Android.deleteReceipt(y.receipt)}catch(e){}}});
       };
       const who=el("label","payer");who.append(el("span",null,"결제한 사람"),payerSelect(y));
       li.append(n,a,d,who);
@@ -596,7 +700,8 @@ render();
         b.onclick=()=>{const ex=new Set(y.ex||[]);if(ex.has(p.id))ex.delete(p.id);else{if(S.people.length-ex.size<=1){mToast("한 명은 남아야 해요.");return}ex.add(p.id)}y.ex=[...ex];drawPays();update()};
         sw.appendChild(b)});
       li.appendChild(sw);
-      if(y.receipt)li.appendChild(el("div","rcpt","사진 첨부됨 · 공유할 때 같이 보내져요"));
+      if(y.wphoto){const im=el("img","wthumb");im.src=y.wphoto;im.alt="붙인 영수증 사진";li.appendChild(im)}
+      if(y.receipt||y.wphoto)li.appendChild(el("div","rcpt",y.receipt?"사진 첨부됨 · 공유할 때 같이 보내져요":"사진 첨부됨 · 공유할 때 같이 보내요 (앱을 닫으면 사진은 사라져요)"));
       ul.appendChild(li);
     });
     if(focusId){const e=$("mpay-amt-"+focusId);if(e)e.focus()}
@@ -608,7 +713,7 @@ render();
     b.onclick=()=>{
       const same=S.pays.filter(z=>(z.name||"").replace(/\s\d+차$/,"")===pr).length;
       const name=same?`${pr} ${same+1}차`:pr;
-      let y=S.pays.find(z=>!z.amount&&!(z.name||"").trim()&&!z.receipt);
+      let y=S.pays.find(z=>!z.amount&&!(z.name||"").trim()&&!z.receipt&&!z.wphoto);
       if(y)y.name=name;else{y={id:++mid,name,amount:0,payer:lastPayer()};S.pays.push(y)}
       drawPays(y.id);update();
     };
@@ -617,7 +722,7 @@ render();
 
   // 사진으로 넣은 결제를 이 탭에 추가 (영수증 찍기와 같은 기능을 씀)
   window.mAddEntry=(name,amount,receipt)=>{
-    let y=S.pays.find(z=>!z.amount&&!(z.name||"").trim()&&!z.receipt);
+    let y=S.pays.find(z=>!z.amount&&!(z.name||"").trim()&&!z.receipt&&!z.wphoto);
     if(!y){y={id:++mid,payer:lastPayer()};S.pays.push(y)}
     y.name=name;y.amount=amount;if(receipt)y.receipt=receipt;
     return y;
@@ -667,10 +772,10 @@ render();
   const kakaoOk=u=>/^https:\/\/([a-z0-9-]+\.)*kakaopay\.com\/\S+$/i.test(u||"");
   function payData(to,amount){
     const acc=digits(to.acc);
-    if(S.mode==="kakao")return kakaoOk(to.kakao)?{data:to.kakao,line:"카카오톡 송금으로 받기",note:`금액 칸에 ${fmt(amount)}원을 입력해 보내주세요`}:{missing:"카카오톡 송금 링크"};
+    if(S.mode==="kakao")return kakaoOk(to.kakao)?{data:to.kakao,line:"카카오톡 송금으로 받기",note:`금액 칸에 ${fmt(amount)}원을 입력해 보내 주세요`}:{missing:"카카오톡 송금 링크"};
     if(!acc)return {missing:"계좌번호"};
     const line=`${to.bank} ${to.acc.trim()}`;
-    if(S.mode==="toss")return {data:`supertoss://send?amount=${amount}&bank=${encodeURIComponent(to.bank)}&accountNo=${acc}&origin=qr`,line,note:"카메라로 찍으면 토스에 금액까지 채워져요"};
+    if(S.mode==="toss")return {data:tossUrl(to.bank,acc,amount),line,note:"카메라로 찍으면 토스에 금액까지 채워져요"};
     return {data:`${to.bank} ${acc} ${nameOf(to.id)}\n${fmt(amount)}원`,line,note:"찍으면 계좌와 금액이 글자로 떠요"};
   }
 
@@ -679,15 +784,17 @@ render();
     save();
     const r=settle();last=r;
     $("mSum").textContent=fmt(r.total)+"원";
-    $("mPer").textContent=r.total?(r.split?`${r.N}명 · 메뉴별로 나눔 (사람별 금액은 아래)`:`${r.N}명 · 1인당 ${fmt(r.per)}원`):`${r.N}명`;
+    const lo=Math.floor(r.total/r.N);
+    $("mPer").textContent=r.total?(r.split?`${r.N}명 · 메뉴별로 나눔 (사람별 금액은 아래)`:`${r.N}명 · 1인당 ${r.total%r.N?fmt(lo)+"~"+fmt(lo+1):fmt(lo)}원`+(r.total%r.N?" (남는 몇 원은 결제한 사람 몫으로 계산해요)":"")):`${r.N}명`;
     // 사람별 요약
     const bal=$("mBal");bal.innerHTML="";
-    S.people.forEach((p,i)=>{
+    if(!r.total)bal.appendChild(el("p","empty-msg","결제 금액을 넣으면 사람별로 계산돼요."));
+    else S.people.forEach((p,i)=>{
       const row=el("div","bal");
       const left=el("div","bal-who");
       left.append(el("b",null,pname(p,i)),el("span","note",r.paid[p.id]?`낸 돈 ${fmt(r.paid[p.id])}원 · 내 몫 ${fmt(r.share[p.id])}원`:`결제 안 함 · 내 몫 ${fmt(r.share[p.id])}원`));
       const n=r.net[p.id];
-      const pill=el("span","pill "+(n>0?"get":n<0?"give":"even"),n>0?`받을 돈 ${fmt(n)}원`:n<0?`보낼 돈 ${fmt(-n)}원`:"정산 끝");
+      const pill=el("span","pill "+(n>0?"get":n<0?"give":"even"),n>0?`받을 돈 ${fmt(n)}원`:n<0?`보낼 돈 ${fmt(-n)}원`:"주고받을 돈 없음");
       row.append(left,pill);bal.appendChild(row);
     });
     // 송금 QR
@@ -713,7 +820,7 @@ render();
       /* 단독 정산의 '계좌만 복사'처럼, 받는 사람 계좌를 바로 복사 */
       if(to&&digits(to.acc)){const cb=el("button","xpaid","계좌 복사 · "+to.bank+" "+to.acc.trim());cb.type="button";cb.onclick=()=>{copy(`${to.bank} ${digits(to.acc)}`,"계좌번호를 복사했어요");mToast(`${nameOf(x.to)} 계좌번호를 복사했어요`)};card.appendChild(cb)}
       const pk=nameOf(x.from)+">"+nameOf(x.to)+"|"+x.amount, paidSet=loadPaid(), done=paidSet.has(pk);
-      const pb=el("button","xpaid",done?"✓ 받았어요":"받았으면 눌러 표시");pb.type="button";pb.setAttribute("aria-pressed",String(done));
+      const pb=el("button","xpaid",done?"✓ 받았어요 (누르면 취소)":"받았어요 표시");pb.type="button";pb.setAttribute("aria-pressed",String(done));
       pb.onclick=()=>{const s2=loadPaid();if(s2.has(pk))s2.delete(pk);else s2.add(pk);savePaid(s2);update()};
       card.appendChild(pb);if(done)card.classList.add("done");
       list.appendChild(card);
@@ -724,17 +831,18 @@ render();
         rb.onclick=()=>{const ps2=loadPaid(),left=r.xfers.filter(x=>!ps2.has(nameOf(x.from)+">"+nameOf(x.to)+"|"+x.amount));
           const L=["[N빵] 정산 아직 안 끝났어요 🙏"];left.forEach(x=>{const to=S.people.find(p=>p.id===x.to);let where="";
             if(S.mode==="kakao"&&kakaoOk(to.kakao))where=` → ${to.kakao}`;else if(to&&digits(to.acc))where=` → ${to.bank} ${to.acc.trim()}`;
-            L.push(`· ${nameOf(x.from)} → ${nameOf(x.to)} ${fmt(x.amount)}원${where}`)});
-          copy(L.join("\n"),"메시지를 복사했어요. 카톡에 붙여넣으세요")};
+            L.push(`· ${nameOf(x.from)} → ${nameOf(x.to)} ${fmt(x.amount)}원${where}`);
+            if(S.mode!=="kakao"&&to&&digits(to.acc))L.push(`  토스로 보내기: ${tossUrl(to.bank,to.acc,x.amount)}`)});
+          copy(L.join("\n"),"메시지를 복사했어요. 카톡에 붙여 넣으세요")};
         list.insertBefore(rb,list.children[1]||null)} }
   }
 
   function shareText(){
     const r=last||settle();
     const L=["[N빵 정산 · 여럿이 결제]"];
-    S.pays.filter(y=>y.amount>0).forEach(y=>{const ex=(y.ex||[]).filter(id=>S.people.some(p=>p.id===id));L.push(`· ${(y.name||"").trim()||"결제"} ${fmt(y.amount)}원 (${nameOf(y.payer)} 결제)${ex.length?` · ${ex.map(nameOf).join(", ")} 빼고 나눔`:""}${y.receipt?" (사진 첨부)":""}`)});
+    S.pays.filter(y=>y.amount>0).forEach(y=>{const ex=(y.ex||[]).filter(id=>S.people.some(p=>p.id===id));L.push(`· ${(y.name||"").trim()||"결제"} ${fmt(y.amount)}원 (${nameOf(y.payer)} 결제)${ex.length?` · ${ex.map(nameOf).join(", ")} 빼고 나눔`:""}${y.receipt||y.wphoto?" (사진 첨부)":""}`)});
     if(r.split){L.push(`합계 ${fmt(r.total)}원 · 메뉴별로 나눔`);S.people.forEach((p,i)=>L.push(`  ${pname(p,i)} 몫 ${fmt(r.share[p.id])}원`))}
-    else L.push(`합계 ${fmt(r.total)}원 ÷ ${r.N}명 = 1인당 ${fmt(r.per)}원`);
+    else{const lo=Math.floor(r.total/r.N);L.push(`합계 ${fmt(r.total)}원 ÷ ${r.N}명 = 1인당 ${r.total%r.N?fmt(lo)+"~"+fmt(lo+1):fmt(lo)}원`)}
     L.push("");
     if(!r.xfers.length)L.push("보낼 돈이 없어요.");
     else{
@@ -745,6 +853,7 @@ render();
         if(S.mode==="kakao"&&kakaoOk(to.kakao))where=` → 카카오톡 송금: ${to.kakao}`;
         else if(digits(to.acc))where=` → ${to.bank} ${to.acc.trim()}`;
         L.push(`· ${nameOf(x.from)} → ${nameOf(x.to)} ${fmt(x.amount)}원${where}`);
+        if(S.mode!=="kakao"&&digits(to.acc))L.push(`  토스로 보내기: ${tossUrl(to.bank,to.acc,x.amount)}`);
       });
     }
     return L.join("\n").trim();
@@ -753,9 +862,11 @@ render();
     const text=shareText();
     if(window.Android&&Android.share){
       const rc=[...new Set(S.pays.filter(y=>y.receipt&&y.amount>0).map(y=>y.receipt))];
-      try{Android.share(text,JSON.stringify(rc));mToast(rc.length?`사진 ${rc.length}장과 함께 공유해요. 글이 빠지면 붙여넣기 하세요.`:"공유할 앱을 골라 주세요");return}catch(e){}
+      try{Android.share(text,JSON.stringify(rc));mToast(rc.length?`사진 ${rc.length}장과 함께 공유해요. 글이 빠지면 붙여 넣기 해 주세요.`:"공유할 앱을 골라 주세요");return}catch(e){}
     }
-    try{navigator.clipboard.writeText(text).then(()=>mToast("정산 내용을 복사했어요. 카톡에 붙여넣으세요"),()=>mFallback(text))}catch(e){mFallback(text)}
+    const files=[...new Set(S.pays.filter(y=>y.wphoto&&y.amount>0).map(y=>y.wphoto))].map(u=>WEB_PHOTOS[u]).filter(Boolean);
+    if(window.webShare&&webShare(text,files))return;
+    try{navigator.clipboard.writeText(text).then(()=>mToast("정산 내용을 복사했어요. 카톡에 붙여 넣으세요"),()=>mFallback(text))}catch(e){mFallback(text)}
   };
   function mToast(t){$("mToast").textContent=t;clearTimeout(mToast._t);mToast._t=setTimeout(()=>$("mToast").textContent="",3500)}
   function mFallback(t){const f=$("mFallback");f.hidden=false;f.value=t;f.focus();f.select();mToast("복사가 막혀 있어요. 아래 글자를 길게 눌러 복사해 주세요.")}
@@ -766,7 +877,7 @@ render();
     document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===t)));
     $("basicTab").hidden=t!=="basic";$("multiTab").hidden=t!=="multi";
     $("mScan").hidden=$("scanLabel").hidden;
-    try{localStorage.setItem("nbbang-tab",t)}catch(e){}
+    lsSet("nbbang-tab",t);
   }
   document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
   seg("mRound",S.round);seg("mMode",S.mode);
@@ -779,6 +890,22 @@ render();
 })();
 </script>
 
+<script>
+// 아이폰·웹: 글자 자동 읽기는 앱(안드로이드)에서만 돼요. 웹에서는 사진을 붙이고 금액은 직접 넣어요.
+(function(){
+  if(window.Android)return;
+  const lab=$("scanLabel"),inp=$("receipt"),st=window.scanSt;
+  if(!lab||!inp||!window.URL||!URL.createObjectURL)return;
+  lab.hidden=false;const ms=$("mScan");if(ms)ms.hidden=false;
+  inp.addEventListener("change",()=>{
+    const f=inp.files&&inp.files[0];inp.value="";if(!f)return;
+    if(!/^image\//.test(f.type||"image/")){st.textContent="사진 파일만 붙일 수 있어요.";return}
+    const url=URL.createObjectURL(f);WEB_PHOTOS[url]=f;
+    const it=addScanned("영수증",0,null);it.wphoto=url;redrawScanned(it.id);
+    st.textContent="사진을 붙였어요. 웹에서는 금액을 자동으로 읽지 못해요. 사진을 보면서 금액을 직접 넣어 주세요.";
+  });
+})();
+</script>
 <script>
 // 앱 전용: 영수증 촬영 → 폰 안에서 글자 인식 → 금액 자동 등록
 (function(){
@@ -806,16 +933,19 @@ render();
       const it=addScanned(String((r.store)||"영수증").slice(0,30),ok?Math.round(r.total):0,r.receipt?String(r.receipt):null);
       redrawScanned(ok?null:it.id);
       st.textContent=ok?it.name+" "+fmt(it.amount)+"원을 추가했어요. 금액이 맞는지 확인해 주세요."
-        :"영수증 사진은 붙였는데 금액을 못 찾았어요. 금액을 직접 입력해 주세요.";
+        :"영수증 사진은 붙였는데 금액을 못 찾았어요. 금액을 직접 넣어 주세요.";
     }else st.textContent=(r&&r.error)||"영수증을 읽지 못했어요. 직접 입력해 주세요.";
   };
 })();
 </script>
-<style>#appVer{position:fixed;left:calc(8px + env(safe-area-inset-left,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:1000;font:600 11px ui-monospace,Menlo,monospace;color:#5B6B80;background:rgba(255,255,255,.92);border:1px solid #dfe5ea;border-radius:999px;padding:3px 9px;box-shadow:0 1px 4px rgba(0,0,0,.08)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #appVer{background:rgba(24,33,43,.92);border-color:#2b3744;color:#9aa8b6}}:root[data-theme="dark"] #appVer{background:rgba(24,33,43,.92);border-color:#2b3744;color:#9aa8b6}body{padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}</style><button type="button" id="appVer">v1.__N__</button>
+<style>/* 버전: 화면 맨 아래 왼쪽에 두어 다른 버튼을 가리지 않게. 누르는 곳은 44px */
+#appVer{display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:0 12px;font:700 12px system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;color:#4A5A6E;background:rgba(255,255,255,.92);border:1px solid #dfe5ea;border-radius:999px;cursor:pointer}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #appVer{background:rgba(24,33,43,.92);border-color:#2b3744;color:#B3BEC9}}:root[data-theme="dark"] #appVer{background:rgba(24,33,43,.92);border-color:#2b3744;color:#B3BEC9}
+body{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}</style><div class="verrow"><button type="button" id="appVer">v1.__N__</button></div>
 
 
 <!--APPINFO--><script>
-window.APP_INFO={"name": "N빵", "repo": "dlsdml99-create/nbbang-qr", "version": "1.__N__", "mount": "#appVer", "notes": [{"v": "current", "d": "2026.11.12", "items": ["📱 아이폰에서도 쓸 수 있어요: 다운로드 페이지의 '아이폰·PC에서는 웹으로 쓰기'로 열고 홈 화면에 추가하면 돼요", "✏️ 화면 글자 다듬기: '단독/다수' 탭을 '혼자 결제/여럿이 결제'로, 올림은 '올림 단위'로 알아보기 쉽게 바꿨어요"]}, {"v": "v1.21", "d": "2026.11.09", "items": ["⚡ 앱이 더 빨리 열려요: 글꼴을 기다리지 않고 화면부터 보여줘요"]}, {"v": "v1.19", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요", "QR 만드는 라이브러리를 npm 공식 저장소에서 무결성을 확인한 파일만 써요", "메뉴별로 나누기 (여럿이 결제): 결제마다 '나눌 사람'에서 안 먹은 사람을 눌러 빼면 그 결제는 나머지끼리만 나눠요", "아직 안 보낸 사람에게 보낼 메시지를 한 번에 복사 (혼자 결제·여럿이 결제 모두)"]}, {"v": "v1.18", "d": "2026.11.05", "items": ["왼쪽 아래 버전 → 내 데이터 백업: 기록을 파일로 저장했다가 새 폰에서 불러오기"]}, {"v": "v1.17", "d": "2026.11.01", "items": ["다수 정산에도 송금마다 계좌 복사 버튼"]}, {"v": "v1.16", "d": "2026.11.01", "items": ["받은 돈 체크: 돈을 보낸 친구를 눌러 표시하고, 다 받으면 알려줘요 (다수 정산은 송금마다 받았어요 표시)", "자주 모이는 사람들을 모임으로 저장해 두고 누르기만 하면 이름·계좌가 채워져요", "300만 원이 넘는 금액은 0이 더 붙지 않았는지 한 번 물어봐요"]}, {"v": "v1.15", "d": "2026.11.01", "items": ["인원 수도 저장돼서 다시 열어도 그대로예요 (예전에는 2명으로 돌아갔어요)", "인원 칸에 0을 넣으면 1명으로 고쳐요", "다수 정산에서 결제한 사람을 빼면, 그 결제를 누구에게 옮겼는지 알려줘요"]}, {"v": "v1.13", "d": "2026.11.01", "items": ["왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용·개인정보를 볼 수 있어요", "새 버전이 나오면 버전 글씨가 노란색으로 바뀌어요", "뒤로 가기로 열린 창을 먼저 닫아요"]}, {"v": "v1.12", "d": "2026.11.01", "items": ["보안: 앱 서명 키를 새로 바꿨어요 (이번 한 번만 지우고 새로 설치)", "용량 44.9MB → 1MB (글자 인식은 폰의 Google Play 서비스 것을 빌려 씀)", "정식(릴리스) 빌드로 더 가볍고 빠르게", "쓰이지 않던 AI 연결 코드를 지웠어요"]}, {"v": "v1.10", "d": "2026.10.25", "items": ["영수증·결제 캡처에서 금액과 가게 이름 읽기", "송금 QR, 정산 메시지 공유"]}], "privacy": "계좌·정산 내용과 영수증 사진은 이 기기에만 저장돼요. 영수증 글자 인식은 폰 안에서 해요. 인터넷은 새 버전 확인과 화면 글꼴을 불러올 때만 써요.", "backup": {"keys": ["nbbang", "nbbang-*"], "bridge": "Android"}};
+window.APP_INFO={"name": "N빵", "repo": "dlsdml99-create/nbbang-qr", "version": "1.__N__", "mount": "#appVer", "notes": [{"v": "current", "d": "2026.11.12", "items": ["🔒 백업 파일에 비밀번호를 걸 수 있어요 (6글자 이상 · 계좌번호가 들어 있으니 걸어 두는 걸 권해요)", "🔒 보안 강화: 글꼴을 인터넷에서 받지 않고 폰 글꼴을 써요. 앱 화면은 새 버전 확인 말고는 인터넷에 접속하지 않고, 폰 자동 백업에 계좌 정보가 담기지 않게 했어요", "💸 공유 글과 재촉 메시지에 '토스로 보내기' 주소도 같이 넣어요", "🔢 금액 칸: 빼기(-)만 넣거나 소수점을 넣으면 알려 줘요. '50000-5000'처럼 할인을 빼거나 '12000+8500'처럼 더해도 돼요", "🏦 계좌번호 칸에는 숫자와 - 만 들어가요", "↩️ 실수로 지운 금액·결제·사람·모임을 '되돌리기'로 살려요", "🔠 글씨 크기: 맨 위 '가 글씨' 버튼으로 보통·크게·아주 크게", "👥 혼자 결제에서도 저장한 모임을 누르면 인원 수와 이름이 채워져요", "📷 아이폰·웹에서도 영수증 사진을 붙일 수 있어요 (금액은 직접 넣어요)", "✏️ 문구 다듬기: '받았어요 표시', '계좌 정보 글', 예시 글자에 '예:' 붙이기, 금액이 없을 때 '정산 끝' 대신 안내", "👆 왼쪽 아래 버전 버튼을 화면 맨 아래로 옮겨 다른 버튼을 가리지 않아요"]}, {"v": "v1.22", "d": "2026.11.12", "items": ["📱 아이폰에서도 쓸 수 있어요: 다운로드 페이지의 '아이폰·PC에서는 웹으로 쓰기'로 열고 홈 화면에 추가하면 돼요", "✏️ 화면 글자 다듬기: '단독/다수' 탭을 '혼자 결제/여럿이 결제'로, 올림은 '올림 단위'로 알아보기 쉽게 바꿨어요"]}, {"v": "v1.21", "d": "2026.11.09", "items": ["⚡ 앱이 더 빨리 열려요: 글꼴을 기다리지 않고 화면부터 보여줘요"]}, {"v": "v1.19", "d": "2026.11.05", "items": ["보안 강화: 앱 화면이 허락된 곳 말고는 스크립트를 불러오지 못하게 막고, 폰의 다른 파일을 읽지 못하게 하고, 업데이트 파일은 이 앱 저장소 주소에서만 받아요", "QR 만드는 라이브러리를 npm 공식 저장소에서 무결성을 확인한 파일만 써요", "메뉴별로 나누기 (여럿이 결제): 결제마다 '나눌 사람'에서 안 먹은 사람을 눌러 빼면 그 결제는 나머지끼리만 나눠요", "아직 안 보낸 사람에게 보낼 메시지를 한 번에 복사 (혼자 결제·여럿이 결제 모두)"]}, {"v": "v1.18", "d": "2026.11.05", "items": ["왼쪽 아래 버전 → 내 데이터 백업: 기록을 파일로 저장했다가 새 폰에서 불러오기"]}, {"v": "v1.17", "d": "2026.11.01", "items": ["여럿이 결제에도 송금마다 계좌 복사 버튼"]}, {"v": "v1.16", "d": "2026.11.01", "items": ["받은 돈 체크: 돈을 보낸 친구를 눌러 표시하고, 다 받으면 알려줘요 (여럿이 결제는 송금마다 받았어요 표시)", "자주 모이는 사람들을 모임으로 저장해 두고 누르기만 하면 이름·계좌가 채워져요", "300만 원이 넘는 금액은 0이 더 붙지 않았는지 한 번 물어봐요"]}, {"v": "v1.15", "d": "2026.11.01", "items": ["인원 수도 저장돼서 다시 열어도 그대로예요 (예전에는 2명으로 돌아갔어요)", "인원 칸에 0을 넣으면 1명으로 고쳐요", "여럿이 결제에서 결제한 사람을 빼면, 그 결제를 누구에게 옮겼는지 알려줘요"]}, {"v": "v1.13", "d": "2026.11.01", "items": ["왼쪽 아래 버전을 누르면 앱 정보·업데이트 내용·개인정보를 볼 수 있어요", "새 버전이 나오면 버전 글씨가 노란색으로 바뀌어요", "뒤로 가기로 열린 창을 먼저 닫아요"]}, {"v": "v1.12", "d": "2026.11.01", "items": ["보안: 앱 서명 키를 새로 바꿨어요 (이번 한 번만 지우고 새로 설치)", "용량 44.9MB → 1MB (글자 인식은 폰의 Google Play 서비스 것을 빌려 씀)", "정식(릴리스) 빌드로 더 가볍고 빠르게", "쓰이지 않던 AI 연결 코드를 지웠어요"]}, {"v": "v1.10", "d": "2026.10.25", "items": ["영수증·결제 캡처에서 금액과 가게 이름 읽기", "송금 QR, 정산 메시지 공유"]}], "privacy": "계좌·정산 내용과 영수증 사진은 이 기기에만 저장되고, 폰 자동 백업에도 담기지 않아요. 영수증 글자 인식은 폰 안에서 해요. 인터넷은 새 버전 확인에만 써요. 2026년 11월 1일 전에 받은 앱(v1.10 이하)을 쓰고 있다면 지우고 새로 설치해 주세요.", "backup": {"keys": ["nbbang", "nbbang-*"], "bridge": "Android"}};
 window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.protocol==="https:";
 </script>
 <script>
@@ -908,6 +1038,7 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
     '.nh{display:flex;align-items:baseline;gap:10px}.nh b{font:800 16px ui-monospace,Menlo,monospace}.nh span{color:var(--ink3);font-size:14px}' +
     'ul.notes ul{margin:6px 0 0;padding-left:20px;list-style:circle;color:var(--ink2)}ul.notes ul li{margin:2px 0}' +
     '.hint{margin:0;color:var(--ink2)}' +
+    '.pw{flex:1 1 160px;min-width:0;width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--btn);color:var(--ink);border-radius:12px;padding:11px 12px;font:inherit;font-size:15px;margin:0 0 8px}' +
     'button:focus-visible,a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}';
   var isOpen = false;
   function statusHTML() {
@@ -920,7 +1051,31 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
   /* ── 내 데이터 백업: 이 기기에 저장된 것(설정·기록·사진)을 파일 하나로 저장하고 다시 불러오기.
      파일은 사용자가 고른 곳(내 파일·드라이브 등)에만 저장되고, 앱이 인터넷으로 보내지 않는다.
      설정: APP_INFO.backup = { keys:['이름', '접두어*'], idb:[{db, store}], bridge:'Android', save:fn(name,text)->Promise }  ── */
-  var B = C.backup || null, bk = { msg: '', busy: false, pending: null };
+  var B = C.backup || null, bk = { msg: '', busy: false, pending: null, locked: null };
+  /* 비밀번호 잠금: 비밀번호로 만든 열쇠(PBKDF2 60만 번)로 AES-GCM 256 암호화. 비밀번호와 열쇠는 어디에도 저장하지 않음 */
+  var PW_MIN = 6, PW_ITER = 600000;
+  var BLOCK = (function () {
+    function ok() { return !!(window.crypto && crypto.subtle && crypto.getRandomValues && window.TextEncoder && window.TextDecoder); }
+    function b64(u8) { var t = ''; for (var i = 0; i < u8.length; i += 0x8000) t += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(t); }
+    function unb64(t) { var b = atob(String(t || '')), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+    function key(pw, salt, n) {
+      return crypto.subtle.importKey('raw', new TextEncoder().encode(String(pw)), 'PBKDF2', false, ['deriveKey']).then(function (k) {
+        return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: n, hash: 'SHA-256' }, k, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+      });
+    }
+    function seal(text, pw) {
+      var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+      return key(pw, salt, PW_ITER).then(function (k) { return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, k, new TextEncoder().encode(text)); })
+        .then(function (ct) { return { v: 1, n: PW_ITER, s: b64(salt), i: b64(iv), d: b64(new Uint8Array(ct)) }; });
+    }
+    function open(o, pw) {
+      if (!o || typeof o.s !== 'string' || typeof o.i !== 'string' || typeof o.d !== 'string') return Promise.reject(new Error('bad'));
+      var n = +o.n; if (!(n >= 100000 && n <= 5000000)) n = 200000;
+      return key(pw, unb64(o.s), n).then(function (k) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(o.i) }, k, unb64(o.d)); })
+        .then(function (pt) { return new TextDecoder().decode(pt); });
+    }
+    return { ok: ok, seal: seal, open: open };
+  })();
   var bkBridge = function () { var b = B && B.bridge && window[B.bridge]; return b && typeof b.backupSave === 'function' ? b : null; };
   function lsKeys() {
     var out = [];
@@ -967,17 +1122,25 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
   function bkSet(m, busy) { bk.msg = m; bk.busy = !!busy; if (isOpen) render(); }
   function bkName() { var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; }; return C.name + '-백업-' + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '.json'; }
   function bkSave() {
-    if (bk.busy) return; bkSet('백업 파일을 만드는 중이에요…', true);
+    if (bk.busy) return;
+    var pwEl = root.querySelector('#bk-pw'), pw = pwEl ? pwEl.value : '';
+    if (pw && pw.length < PW_MIN) { bkSet('비밀번호는 ' + PW_MIN + '글자 이상으로 해 주세요.'); return; }
+    bkSet(pw ? '비밀번호로 잠근 백업 파일을 만드는 중이에요…' : '백업 파일을 만드는 중이에요…', true);
     var ls = {}; lsKeys().forEach(function (k) { ls[k] = localStorage.getItem(k); });
     Promise.all((B.idb || []).map(idbDump)).then(function (dumps) {
       var idb = {}; (B.idb || []).forEach(function (d, i) { idb[d.db + '/' + d.store] = dumps[i]; });
-      var text = JSON.stringify({ app: C.name, repo: C.repo, version: cur(), at: new Date().toISOString(), ls: ls, idb: idb }), name = bkName(), br = bkBridge();
+      var plain = JSON.stringify({ app: C.name, repo: C.repo, version: cur(), at: new Date().toISOString(), ls: ls, idb: idb });
+      if (!pw) { bkWrite(plain); return; }
+      return BLOCK.seal(plain, pw).then(function (o) { bkWrite(JSON.stringify({ app: C.name, repo: C.repo, version: cur(), at: new Date().toISOString(), enc: 1, lock: o })); });
+    }).catch(function () { bkDone(false); });
+  }
+  function bkWrite(text) {
+      var name = bkName(), br = bkBridge();
       if (br) { bkSet('저장할 곳을 골라 주세요 (내 파일·드라이브 등)', true); br.backupSave(name, text); return; }
       if (typeof B.save === 'function') { Promise.resolve(B.save(name, text)).then(function (ok) { bkDone(ok !== false, ok === false ? 'cancel' : ''); }, function () { bkDone(false); }); return; }
       var blob = new Blob([text], { type: 'application/json' }), f = window.File ? new File([blob], name, { type: 'application/json' }) : null;
       if (f && navigator.canShare && navigator.canShare({ files: [f] })) { navigator.share({ files: [f], title: name }).then(function () { bkDone(true); }, function (e) { bkDone(false, e && e.name === 'AbortError' ? 'cancel' : ''); }); return; }
       var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000); bkDone(true);
-    }, function () { bkDone(false); });
   }
   function bkDone(ok, why) { bkSet(ok ? '백업 파일을 저장했어요. 새 폰에서는 이 화면의 "백업 불러오기"로 넣으면 돼요.' : why === 'cancel' ? '' : '백업 파일을 저장하지 못했어요. 다시 해 주세요.'); }
   function bkOpen() {
@@ -990,9 +1153,17 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
   function bkOpened(text) {
     if (text == null) { bkSet(''); return; }
     var o = null; try { o = JSON.parse(text); } catch (e) { o = null; }
-    if (!o || typeof o.ls !== 'object' || !o.ls) { bkSet('이 파일은 백업 파일이 아니에요.'); return; }
+    if (o && o.enc === 1 && o.lock && o.repo === C.repo) { bk.locked = o; bk.pending = null; bkSet('비밀번호가 걸린 백업이에요. 저장할 때 넣은 비밀번호를 넣어 주세요.'); return; }
+    if (!o || typeof o.ls !== 'object' || !o.ls) { bkSet(o && o.enc === 1 ? '다른 앱의 백업이에요. ' + C.name + ' 백업 파일을 골라 주세요.' : '이 파일은 백업 파일이 아니에요.'); return; }
     if (o.repo !== C.repo) { bkSet('이 파일은 ' + (o.app ? '“' + o.app + '” 앱의' : '다른 앱의') + ' 백업이에요. ' + C.name + ' 백업 파일을 골라 주세요.'); return; }
     bk.pending = o; bkSet('');
+  }
+  function bkUnlock() {
+    var o = bk.locked, el = root.querySelector('#bk-upw'), pw = el ? el.value : '';
+    if (!o) return; if (!pw) { bkSet('비밀번호를 넣어 주세요.'); return; }
+    if (!BLOCK.ok()) { bkSet('이 폰에서는 비밀번호가 걸린 백업을 열 수 없어요.'); return; }
+    bkSet('여는 중이에요…', true);
+    BLOCK.open(o.lock, pw).then(function (plain) { bk.locked = null; bkOpened(plain); }, function () { bkSet('비밀번호가 맞지 않아요.'); });
   }
   var bkMatch = function (k) { return (B.keys || []).some(function (p) { return k === p || (p.slice(-1) === '*' && String(k).indexOf(p.slice(0, -1)) === 0); }); };
   function bkApply() {
@@ -1018,7 +1189,9 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
     return '<p class="lbl">내 데이터 백업</p>' +
       (p ? '<p class="hint">' + esc((when && !isNaN(when) ? (when.getMonth() + 1) + '월 ' + when.getDate() + '일 ' : '') + '백업 (v' + (p.version || '?') + ')') + '을 불러오면 지금 이 폰의 ' + esc(C.name) + ' 기록이 백업 내용으로 바뀌어요.</p>' +
         '<div class="row"><button class="btn main" type="button" data-bk="apply"' + (bk.busy ? ' disabled' : '') + '>불러오기</button><button class="btn" type="button" data-bk="cancel">취소</button></div>'
-      : '<p class="hint">폰을 바꾸거나 앱을 지우기 전에 파일로 저장해 두세요. 파일은 내가 고른 곳에만 저장되고 인터넷으로 보내지 않아요.</p>' +
+      : bk.locked ? '<p class="hint">🔒 비밀번호가 걸린 백업이에요.</p><div class="row"><input class="pw" id="bk-upw" type="password" autocomplete="off" maxlength="40" placeholder="백업 비밀번호" aria-label="백업 비밀번호"><button class="btn main" type="button" data-bk="unlock"' + (bk.busy ? ' disabled' : '') + '>열기</button><button class="btn" type="button" data-bk="cancel">취소</button></div>'
+      : '<p class="hint">폰을 바꾸거나 앱을 지우기 전에 파일로 저장해 두세요. 파일은 내가 고른 곳에만 저장되고 인터넷으로 보내지 않아요. 계좌번호가 들어 있으니 비밀번호를 걸어 두는 걸 권해요.</p>' +
+        (BLOCK.ok() ? '<input class="pw" id="bk-pw" type="password" autocomplete="new-password" maxlength="40" placeholder="비밀번호 (선택 · ' + PW_MIN + '글자 이상)" aria-label="백업 비밀번호 (선택)"><p class="hint" style="font-size:13px">비밀번호를 잊으면 백업을 열 수 없어요.</p>' : '') +
         '<div class="row"><button class="btn" type="button" data-bk="save"' + (bk.busy ? ' disabled' : '') + '>백업 파일로 저장</button><button class="btn" type="button" data-bk="open"' + (bk.busy ? ' disabled' : '') + '>백업 불러오기</button></div>') +
       (bk.msg ? '<p class="hint" role="status">' + esc(bk.msg) + '</p>' : '');
   }
@@ -1042,7 +1215,7 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
     root.querySelectorAll('[data-x]').forEach(function (b) { b.addEventListener('click', close); });
     var c = root.querySelector('[data-chk]');
     if (c) c.addEventListener('click', function () { check(true); });
-    root.querySelectorAll('[data-bk]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-bk'); if (k === 'save') bkSave(); else if (k === 'open') bkOpen(); else if (k === 'apply') bkApply(); else { bk.pending = null; bkSet(''); } }); });
+    root.querySelectorAll('[data-bk]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-bk'); if (k === 'save') bkSave(); else if (k === 'open') bkOpen(); else if (k === 'apply') bkApply(); else if (k === 'unlock') bkUnlock(); else { bk.pending = null; bk.locked = null; bkSet(''); } }); });
   }
   function open() { isOpen = true; host.style.display = 'block'; render(); var sh = root.querySelector('.sheet'); if (sh) sh.focus(); if (C.online && !checking && (!latest || Date.now() - (latest.at || 0) > 600000)) check(false); }
   function close() { isOpen = false; host.style.display = 'none'; root.innerHTML = ''; try { label.focus(); } catch (e) { /* 무시 */ } }
@@ -1059,8 +1232,9 @@ window.APP_INFO.online=!!window.Android;APP_INFO.web=!window.Android&&location.p
     fetch('https://api.github.com/repos/' + C.repo + '/releases/latest', { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); })
       .then(function (j) {
-        var url = j.html_url || ('https://github.com/' + C.repo + '/releases/latest');
-        (j.assets || []).forEach(function (a) { if (/\.apk$/i.test(a.name) && /^https:\/\/github\.com\//.test(a.browser_download_url)) url = a.browser_download_url; });
+        var REL = 'https://github.com/' + C.repo + '/releases/';
+        var url = typeof j.html_url === 'string' && j.html_url.indexOf(REL) === 0 ? j.html_url : REL + 'latest';
+        (j.assets || []).forEach(function (a) { if (/\.apk$/i.test(a.name) && typeof a.browser_download_url === 'string' && a.browser_download_url.indexOf(REL + 'download/') === 0) url = a.browser_download_url; });
         if (j.tag_name) { latest = { v: norm(j.tag_name), url: url, at: Date.now() }; try { localStorage.setItem(KEY, JSON.stringify(latest)); } catch (e) { /* 무시 */ } }
         done();
       })

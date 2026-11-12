@@ -67,6 +67,8 @@ public class MainActivity extends Activity {
         s.setAllowContentAccess(false);
         s.setAllowFileAccessFromFileURLs(false);
         s.setAllowUniversalAccessFromFileURLs(false);
+        s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        s.setGeolocationEnabled(false);
         WebView.setWebContentsDebuggingEnabled(false);
         web.addJavascriptInterface(new Bridge(), "Android");
         web.setWebViewClient(new WebViewClient() {
@@ -81,13 +83,26 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                 Uri u = req.getUrl();
                 if ("file".equals(u.getScheme())) return !String.valueOf(u.getPath()).startsWith("/android_asset/");
-                try { startActivity(new Intent(Intent.ACTION_VIEW, u)); } catch (Exception ignored) {}
+                openSafe(u); // 허용된 https 주소만 바깥 앱(브라우저)으로 열기
                 return true;
             }
         });
         setContentView(web);
         web.loadUrl("file:///android_asset/index.html");
         checkUpdate();
+    }
+
+    /** 바깥으로 여는 주소: https + 이 앱 GitHub 저장소·다운로드 페이지만 (그 밖은 무시) */
+    static boolean isAllowed(Uri u) {
+        if (u == null || !"https".equals(u.getScheme())) return false;
+        String h = String.valueOf(u.getHost()), p = String.valueOf(u.getPath());
+        if ("github.com".equals(h)) return p.startsWith("/dlsdml99-create/");
+        return "dlsdml99-create.github.io".equals(h);
+    }
+
+    private void openSafe(Uri u) {
+        if (!isAllowed(u)) return;
+        try { startActivity(new Intent(Intent.ACTION_VIEW, u).addCategory(Intent.CATEGORY_BROWSABLE)); } catch (Exception ignored) {}
     }
 
     // ── 새 버전 확인 (GitHub 최신 릴리스와 비교) ──
@@ -139,11 +154,9 @@ public class MainActivity extends Activity {
     private void showUpdate(long latest, String url) {
         if (isFinishing()) return;
         new AlertDialog.Builder(this)
-            .setTitle("새 버전이 있어요")
-            .setMessage("v1." + latest + " 업데이트가 나왔어요.\n'업데이트'를 누르면 파일이 받아져요. 다 받으면 알림이나 다운로드에서 파일을 눌러 설치하세요.")
-            .setPositiveButton("업데이트", (d, w) -> {
-                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) {}
-            })
+            .setTitle("새 버전이 나왔어요")
+            .setMessage("v1." + latest + " 업데이트가 나왔어요.\n'업데이트'를 누르면 파일이 받아져요. 다 받으면 알림이나 다운로드에서 파일을 눌러 설치해 주세요.")
+            .setPositiveButton("업데이트", (d, w) -> openSafe(Uri.parse(url)))
             .setNegativeButton("나중에", null)
             .show();
     }
@@ -226,7 +239,7 @@ public class MainActivity extends Activity {
             i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivityForResult(i, REQ_CAMERA);
         } catch (Exception e) {
-            fail("카메라를 열 수 없어요. 앨범에서 골라주세요.");
+            fail("카메라를 열 수 없어요. 앨범에서 골라 주세요.");
         }
     }
 
@@ -267,7 +280,7 @@ public class MainActivity extends Activity {
             TextRecognition.getClient(new KoreanTextRecognizerOptions.Builder().build())
                 .process(InputImage.fromBitmap(bmp, 0))
                 .addOnSuccessListener(t -> onText(t, saved))
-                .addOnFailureListener(e -> fail("글자를 읽지 못했어요. 금액을 직접 입력해주세요.", saved));
+                .addOnFailureListener(e -> fail("글자를 읽지 못했어요. 금액을 직접 넣어 주세요.", saved));
         }).start();
     }
 
@@ -368,7 +381,7 @@ public class MainActivity extends Activity {
         }
         if (cardMode) { onCardLines(lines, receipt); return; }
         ReceiptParser.Result r = ReceiptParser.parse(lines);
-        if (r.total <= 0) { fail("영수증에서 금액을 찾지 못했어요. 밝은 곳에서 가까이 찍어주세요.", receipt); return; }
+        if (r.total <= 0) { fail("영수증에서 금액을 찾지 못했어요. 밝은 곳에서 가까이 찍어 주세요.", receipt); return; }
         try {
             JSONObject o = new JSONObject();
             o.put("ok", true);
@@ -408,7 +421,7 @@ public class MainActivity extends Activity {
             labels[k] = es.get(k).name + "  " + String.format(java.util.Locale.KOREA, "%,d원", es.get(k).amount);
         }
         new AlertDialog.Builder(this)
-            .setTitle("N빵할 결제를 골라주세요")
+            .setTitle("N빵할 결제를 골라 주세요")
             .setMultiChoiceItems(labels, checked, (d, w, on) -> checked[w] = on)
             .setPositiveButton("추가", (d, w) -> {
                 List<CardParser.Entry> pick = new ArrayList<>();

@@ -11,6 +11,8 @@ if [ ! -f app/src/main/assets/qrcode.js ]; then
 fi
 echo "18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780  app/src/main/assets/qrcode.js" | sha256sum -c -
 cp app/src/main/assets/qrcode.js site/app/qrcode.js
+# 다운로드 페이지의 QR도 같은 확인된 파일을 씀 (바깥 CDN 안 씀)
+cp app/src/main/assets/qrcode.js site/qrcode.js
 cp site/icon-180.png site/app/icon-180.png
 # 홈 화면에 추가했을 때 아이콘·이름이 보이게
 sed "s/미리보기에서는/웹에서는/g; s/__N__/$N/g; s#<meta charset=\"utf-8\">#<meta charset=\"utf-8\"><link rel=\"apple-touch-icon\" href=\"icon-180.png\"><meta name=\"apple-mobile-web-app-title\" content=\"N빵\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\">#" \

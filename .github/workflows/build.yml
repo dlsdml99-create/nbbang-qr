@@ -47,6 +47,8 @@ jobs:
             exit 1
           fi
           export KEY_PASS="${SIGNING%%:*}"
+          # 로그에 비밀번호가 찍히지 않게 가림
+          echo "::add-mask::$KEY_PASS"
           export KEYSTORE="$RUNNER_TEMP/nbbang.jks"
           echo "${SIGNING#*:}" | base64 -d > "$KEYSTORE"
           gradle assembleRelease --no-daemon --stacktrace
