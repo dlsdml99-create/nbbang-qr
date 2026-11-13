@@ -18,3 +18,6 @@ cp site/icon-180.png site/app/icon-180.png
 sed "s/미리보기에서는/웹에서는/g; s/__N__/$N/g; s#<meta charset=\"utf-8\">#<meta charset=\"utf-8\"><link rel=\"apple-touch-icon\" href=\"icon-180.png\"><meta name=\"apple-mobile-web-app-title\" content=\"N빵\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\">#" \
   app/src/main/assets/index.html > site/app/index.html
 grep -q 'apple-touch-icon' site/app/index.html
+# 인터넷 없이도 열리게(서비스워커). 캐시 이름은 'nbbang-' + 버전 번호
+sed "s/__V__/$N/" .github/sw.js > site/app/sw.js
+grep -q "nbbang-$N" site/app/sw.js
